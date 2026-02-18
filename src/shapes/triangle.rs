@@ -1,6 +1,6 @@
-use std::f32::consts::PI;
+use std::{f32::consts::PI, fmt::format, io::stdout};
 
-use crossterm::style::Color;
+use crossterm::{queue, style::{Color, Print}};
 
 use crate::{shapes::{Orientation, line::Line}, types::vec2::Vec2};
 
@@ -60,7 +60,7 @@ impl Triangle {
             Orientation::Right => PI/2.0, // 90
             Orientation::Down => PI, // 180
             Orientation::Left => 3.0 * PI/2.0, // 270
-            Orientation::Custom(v) => v,
+            Orientation::Custom(v) => v
         };
         let x_scale = match self.orientation {
             Orientation::Right | Orientation::Left => 2.0,
