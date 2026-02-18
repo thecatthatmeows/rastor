@@ -1,0 +1,63 @@
+use std::io::{Write, stdout};
+
+use crossterm::{cursor::MoveTo, queue, style::{Color, Print, SetForegroundColor}, terminal};
+
+use crate::types::vec2::Vec2;
+
+pub struct Line {
+    pub pos1: Vec2<f32>,
+    pub pos2: Vec2<f32>,
+    pub color: Color
+}
+
+impl Line {
+    pub fn new(pos1: impl Into<Vec2<f32>>, pos2: impl Into<Vec2<f32>>, color: Color) -> Self {
+        Self {
+            pos1: pos1.into(),
+            pos2: pos2.into(),
+            color
+        }
+    }
+
+    pub fn draw(&self) {
+        let mut stdout = stdout();
+        let (term_width, term_height) = terminal::size().unwrap();
+
+        let x0 = self.pos1.x as i32;
+        let y0 = self.pos1.y as i32;
+        let x1 = self.pos2.x as i32;
+        let y1 = self.pos2.y as i32;
+
+        let dx = (x1 - x0).abs();
+        let dy = -(y1 - y0).abs();
+        let sx: i32 = if x0 < x1 { 1 } else { -1 };
+        let sy = if y0 < y1 { 1 } else { -1 };
+        let mut err = dx + dy;
+        let mut x = x0;
+        let mut y = y0;
+
+        loop {
+            if x >= 0 && x < term_width as i32
+            && y >= 0 && y < term_height as i32 {
+                queue!(
+                    stdout,
+                    MoveTo(x as u16, y as u16),
+                    SetForegroundColor(self.color),
+                    Print("█")
+                ).unwrap();
+            }
+            if x == x1 && y == y1 { break; }
+            let e2 = err * 2;
+            if e2 >= dy {
+                err += dy;
+                x += sx;
+            }
+            if e2 <= dx {
+                err += dx;
+                y += sy;
+            }
+        }
+
+        stdout.flush().unwrap();
+    }
+}
