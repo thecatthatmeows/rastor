@@ -7,5 +7,6 @@ pub enum Orientation {
     Up,
     Down,
     Left,
-    Right
+    Right,
+    Custom(f32),
 }

@@ -60,6 +60,7 @@ impl Triangle {
             Orientation::Right => PI/2.0, // 90
             Orientation::Down => PI, // 180
             Orientation::Left => 3.0 * PI/2.0, // 270
+            Orientation::Custom(v) => v,
         };
         let x_scale = match self.orientation {
             Orientation::Right | Orientation::Left => 2.0,
