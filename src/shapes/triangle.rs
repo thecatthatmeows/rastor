@@ -1,4 +1,4 @@
-use std::{f32::consts::PI, fmt::format, io::stdout};
+use std::{f32::consts::{FRAC_PI_4, PI}, fmt::format, io::stdout};
 
 use crossterm::{queue, style::{Color, Print}};
 
@@ -51,10 +51,10 @@ impl Triangle {
     }
 
     pub fn update(&mut self) {
-        self.rotate();
+        self.update_geometry();
     }
 
-    fn rotate(&mut self) {
+    fn update_geometry(&mut self) {
         let rad = match self.orientation {
             Orientation::Up => 0.0,
             Orientation::Right => PI/2.0, // 90

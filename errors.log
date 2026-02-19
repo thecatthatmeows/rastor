@@ -1,0 +1,75 @@
+   Compiling glyph v0.1.0 (/home/novyn/rust_projects/glyph)
+warning: unused imports: `FRAC_PI_4` and `PI`
+ --> src/shapes/rectangle.rs:1:24
+  |
+1 | use std::f32::consts::{FRAC_PI_4, PI};
+  |                        ^^^^^^^^^  ^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `line::Line`
+ --> src/shapes/rectangle.rs:5:35
+  |
+5 | use crate::{shapes::{Orientation, line::Line, triangle::Triangle}, types::vec2::Vec2};
+  |                                   ^^^^^^^^^^
+
+warning: unused imports: `FRAC_PI_4`, `fmt::format`, and `io::stdout`
+ --> src/shapes/triangle.rs:1:25
+  |
+1 | use std::{f32::consts::{FRAC_PI_4, PI}, fmt::format, io::stdout};
+  |                         ^^^^^^^^^       ^^^^^^^^^^^  ^^^^^^^^^^
+
+warning: unused imports: `Print` and `queue`
+ --> src/shapes/triangle.rs:3:17
+  |
+3 | use crossterm::{queue, style::{Color, Print}};
+  |                 ^^^^^                 ^^^^^
+
+warning: `glyph` (lib) generated 4 warnings (run `cargo fix --lib -p glyph` to apply 4 suggestions)
+warning: unused imports: `Error`, `thread::sleep`, and `time::Duration`
+ --> examples/growing_rect.rs:1:40
+  |
+1 | use std::{f32::consts::FRAC_PI_4, io::{Error, stdout}, thread::sleep, time::Duration};
+  |                                        ^^^^^           ^^^^^^^^^^^^^  ^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused imports: `Event` and `self`
+ --> examples/growing_rect.rs:3:41
+  |
+3 | use crossterm::{cursor::MoveTo, event::{self, Event, KeyCode}, execute, style::Color, terminal::{Clear, ClearType, disable_raw_mode, enab...
+  |                                         ^^^^  ^^^^^
+
+warning: unused imports: `Orientation`, `line::Line`, and `triangle::Triangle`
+ --> examples/growing_rect.rs:4:39
+  |
+4 | use glyph::{key::handle_key, shapes::{Orientation, line::Line, rectangle::Rectangle, triangle::Triangle}, types::vec2::Vec2, utils::get_t...
+  |                                       ^^^^^^^^^^^  ^^^^^^^^^^                        ^^^^^^^^^^^^^^^^^^
+
+warning: `glyph` (example "growing_rect") generated 3 warnings (run `cargo fix --example "growing_rect" -p glyph` to apply 3 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.72s
+     Running `target/debug/examples/growing_rect`
+Vec2 { x: -0.0, y: 0.0 }
+Vec2 { x: -0.0, y: 0.0 }
+Vec2 { x: -0.5, y: 0.5 }
+Vec2 { x: -0.5, y: 0.5 }
+Vec2 { x: -1.0, y: 1.0 }
+Vec2 { x: -1.0, y: 1.0 }
+Vec2 { x: -1.5, y: 1.5 }
+Vec2 { x: -1.5, y: 1.5 }
+Vec2 { x: -2.0, y: 2.0 }
+Vec2 { x: -2.0, y: 2.0 }
+Vec2 { x: -2.5, y: 2.5 }
+Vec2 { x: -2.5, y: 2.5 }
+Vec2 { x: -3.0, y: 3.0 }
+Vec2 { x: -3.0, y: 3.0 }
+Vec2 { x: -3.5, y: 3.5 }
+Vec2 { x: -3.5, y: 3.5 }
+Vec2 { x: -4.0, y: 4.0 }
+Vec2 { x: -4.0, y: 4.0 }
+Vec2 { x: -4.5, y: 4.5 }
+Vec2 { x: -4.5, y: 4.5 }
+Vec2 { x: -5.0, y: 5.0 }
+Vec2 { x: -5.0, y: 5.0 }
+Vec2 { x: -5.5, y: 5.5 }
+Vec2 { x: -5.5, y: 5.5 }

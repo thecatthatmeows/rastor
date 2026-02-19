@@ -1,7 +1,7 @@
 use std::ops::{Add, AddAssign, Div, Mul, Sub};
 use num_traits::{Float, ToPrimitive};
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub struct Vec2<T> {
     pub x: T,
     pub y: T,
@@ -85,8 +85,8 @@ impl<T: Float> Vec2<T> {
         let sin = rad.sin();
 
         Self {
-            x: self.x * cos - self.y * sin,
-            y: self.x * sin + self.y * cos,
+            x: self.x * cos + self.y * sin,
+            y: -self.x * sin + self.y * cos,
         }
     }
 }

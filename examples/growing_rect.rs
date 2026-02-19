@@ -1,4 +1,4 @@
-use std::{io::{Error, stdout}, thread::sleep, time::Duration};
+use std::{f32::consts::FRAC_PI_4, io::{Error, stdout}, thread::sleep, time::Duration};
 
 use crossterm::{cursor::MoveTo, event::{self, Event, KeyCode}, execute, style::Color, terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode}};
 use glyph::{key::handle_key, shapes::{Orientation, line::Line, rectangle::Rectangle, triangle::Triangle}, types::vec2::Vec2, utils::get_terminal_size};
@@ -20,6 +20,7 @@ fn main() -> Result<()> {
         rect.draw();
         rect.update();
         rect.size += Vec2::splat(0.5);
+        rect.rotate(FRAC_PI_4);
 
         handle_key(KeyCode::Char('q'), || is_running = false );
     }
