@@ -1,9 +1,8 @@
-   Compiling glyph v0.1.0 (/home/novyn/rust_projects/glyph)
-warning: unused imports: `FRAC_PI_4` and `PI`
+warning: unused imports: `FRAC_PI_2`, `FRAC_PI_4`, and `PI`
  --> src/shapes/rectangle.rs:1:24
   |
-1 | use std::f32::consts::{FRAC_PI_4, PI};
-  |                        ^^^^^^^^^  ^^
+1 | use std::f32::consts::{FRAC_PI_2, FRAC_PI_4, PI};
+  |                        ^^^^^^^^^  ^^^^^^^^^  ^^
   |
   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
 
@@ -14,10 +13,10 @@ warning: unused import: `line::Line`
   |                                   ^^^^^^^^^^
 
 warning: unused imports: `FRAC_PI_4`, `fmt::format`, and `io::stdout`
- --> src/shapes/triangle.rs:1:25
+ --> src/shapes/triangle.rs:1:36
   |
-1 | use std::{f32::consts::{FRAC_PI_4, PI}, fmt::format, io::stdout};
-  |                         ^^^^^^^^^       ^^^^^^^^^^^  ^^^^^^^^^^
+1 | use std::{f32::consts::{FRAC_PI_2, FRAC_PI_4, PI}, fmt::format, io::stdout};
+  |                                    ^^^^^^^^^       ^^^^^^^^^^^  ^^^^^^^^^^
 
 warning: unused imports: `Print` and `queue`
  --> src/shapes/triangle.rs:3:17
@@ -26,11 +25,11 @@ warning: unused imports: `Print` and `queue`
   |                 ^^^^^                 ^^^^^
 
 warning: `glyph` (lib) generated 4 warnings (run `cargo fix --lib -p glyph` to apply 4 suggestions)
-warning: unused imports: `Error`, `thread::sleep`, and `time::Duration`
- --> examples/growing_rect.rs:1:46
+warning: unused imports: `Error`, `FRAC_PI_4`, `FRAC_PI_8`, `thread::sleep`, and `time::Duration`
+ --> examples/growing_rect.rs:1:25
   |
-1 | use std::{f32::consts::{FRAC_PI_4, PI}, io::{Error, stdout}, thread::sleep, time::Duration};
-  |                                              ^^^^^           ^^^^^^^^^^^^^  ^^^^^^^^^^^^^^
+1 | use std::{f32::consts::{FRAC_PI_4, FRAC_PI_8, PI}, io::{Error, stdout}, thread::sleep, time::Duration};
+  |                         ^^^^^^^^^  ^^^^^^^^^            ^^^^^           ^^^^^^^^^^^^^  ^^^^^^^^^^^^^^
   |
   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
 
@@ -46,194 +45,64 @@ warning: unused imports: `Orientation`, `line::Line`, and `triangle::Triangle`
 4 | use glyph::{key::handle_key, shapes::{Orientation, line::Line, rectangle::Rectangle, triangle::Triangle}, types::vec2::Vec2, utils::get_t...
   |                                       ^^^^^^^^^^^  ^^^^^^^^^^                        ^^^^^^^^^^^^^^^^^^
 
-warning: `glyph` (example "growing_rect") generated 3 warnings (run `cargo fix --example "growing_rect" -p glyph` to apply 3 suggestions)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.44s
+warning: variable does not need to be mutable
+  --> examples/growing_rect.rs:16:9
+   |
+16 |     let mut rad = PI / 16.0;
+   |         ----^^^
+   |         |
+   |         help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `rad`
+  --> examples/growing_rect.rs:16:9
+   |
+16 |     let mut rad = PI / 16.0;
+   |         ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rad`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: `glyph` (example "growing_rect") generated 5 warnings (run `cargo fix --example "growing_rect" -p glyph` to apply 5 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.11s
      Running `target/debug/examples/growing_rect`
-rp Vec2 { x: -10.0, y: 5.9624405e-8 } Vec2 { x: 10.0, y: -5.9624405e-8 } Vec2 { x: 10.0, y: -5.9624405e-8 }
-sp Vec2 { x: 75.0, y: 20.0 } Vec2 { x: 95.0, y: 20.0 } Vec2 { x: 95.0, y: 20.0 }
-rp Vec2 { x: 10.0, y: -2.1855695e-7 } Vec2 { x: -10.0, y: 2.1855695e-7 } Vec2 { x: -10.0, y: 2.1855695e-7 }
-sp Vec2 { x: 95.0, y: 20.0 } Vec2 { x: 75.0, y: 20.0 } Vec2 { x: 75.0, y: 20.0 }
-rp Vec2 { x: -11.0, y: -0.49999994 } Vec2 { x: 11.0, y: -0.50000006 } Vec2 { x: 11.0, y: 0.49999994 }
-sp Vec2 { x: 74.0, y: 20.5 } Vec2 { x: 96.0, y: 20.5 } Vec2 { x: 96.0, y: 19.5 }
-rp Vec2 { x: 11.0, y: 0.49999976 } Vec2 { x: -11.0, y: 0.50000024 } Vec2 { x: -11.0, y: -0.49999976 }
-sp Vec2 { x: 96.0, y: 19.5 } Vec2 { x: 74.0, y: 19.5 } Vec2 { x: 74.0, y: 20.5 }
-rp Vec2 { x: -12.0, y: -0.99999994 } Vec2 { x: 12.0, y: -1.0000001 } Vec2 { x: 12.0, y: 0.99999994 }
-sp Vec2 { x: 73.0, y: 21.0 } Vec2 { x: 97.0, y: 21.0 } Vec2 { x: 97.0, y: 19.0 }
-rp Vec2 { x: 12.0, y: 0.99999976 } Vec2 { x: -12.0, y: 1.0000002 } Vec2 { x: -12.0, y: -0.99999976 }
-sp Vec2 { x: 97.0, y: 19.0 } Vec2 { x: 73.0, y: 19.0 } Vec2 { x: 73.0, y: 21.0 }
-rp Vec2 { x: -13.0, y: -1.4999999 } Vec2 { x: 13.0, y: -1.5000001 } Vec2 { x: 13.0, y: 1.4999999 }
-sp Vec2 { x: 72.0, y: 21.5 } Vec2 { x: 98.0, y: 21.5 } Vec2 { x: 98.0, y: 18.5 }
-rp Vec2 { x: 13.0, y: 1.4999998 } Vec2 { x: -13.0, y: 1.5000002 } Vec2 { x: -13.0, y: -1.4999998 }
-sp Vec2 { x: 98.0, y: 18.5 } Vec2 { x: 72.0, y: 18.5 } Vec2 { x: 72.0, y: 21.5 }
-rp Vec2 { x: -14.0, y: -1.9999999 } Vec2 { x: 14.0, y: -2.0 } Vec2 { x: 14.0, y: 1.9999999 }
-sp Vec2 { x: 71.0, y: 22.0 } Vec2 { x: 99.0, y: 22.0 } Vec2 { x: 99.0, y: 18.0 }
-rp Vec2 { x: 14.0, y: 1.9999996 } Vec2 { x: -14.0, y: 2.0000002 } Vec2 { x: -14.0, y: -1.9999996 }
-sp Vec2 { x: 99.0, y: 18.0 } Vec2 { x: 71.0, y: 18.0 } Vec2 { x: 71.0, y: 22.0 }
-rp Vec2 { x: -15.0, y: -2.5 } Vec2 { x: 15.0, y: -2.5 } Vec2 { x: 15.0, y: 2.5 }
-sp Vec2 { x: 70.0, y: 22.5 } Vec2 { x: 100.0, y: 22.5 } Vec2 { x: 100.0, y: 17.5 }
-rp Vec2 { x: 15.0, y: 2.4999998 } Vec2 { x: -15.0, y: 2.5000002 } Vec2 { x: -15.0, y: -2.4999998 }
-sp Vec2 { x: 100.0, y: 17.5 } Vec2 { x: 70.0, y: 17.5 } Vec2 { x: 70.0, y: 22.5 }
-rp Vec2 { x: -16.0, y: -3.0 } Vec2 { x: 16.0, y: -3.0 } Vec2 { x: 16.0, y: 3.0 }
-sp Vec2 { x: 69.0, y: 23.0 } Vec2 { x: 101.0, y: 23.0 } Vec2 { x: 101.0, y: 17.0 }
-rp Vec2 { x: 16.0, y: 2.9999998 } Vec2 { x: -16.0, y: 3.0000002 } Vec2 { x: -16.0, y: -2.9999998 }
-sp Vec2 { x: 101.0, y: 17.0 } Vec2 { x: 69.0, y: 17.0 } Vec2 { x: 69.0, y: 23.0 }
-rp Vec2 { x: -17.0, y: -3.5 } Vec2 { x: 17.0, y: -3.5 } Vec2 { x: 17.0, y: 3.5 }
-sp Vec2 { x: 68.0, y: 23.5 } Vec2 { x: 102.0, y: 23.5 } Vec2 { x: 102.0, y: 16.5 }
-rp Vec2 { x: 17.0, y: 3.4999995 } Vec2 { x: -17.0, y: 3.5000005 } Vec2 { x: -17.0, y: -3.4999995 }
-sp Vec2 { x: 102.0, y: 16.5 } Vec2 { x: 68.0, y: 16.5 } Vec2 { x: 68.0, y: 23.5 }
-rp Vec2 { x: -18.0, y: -4.0 } Vec2 { x: 18.0, y: -4.0 } Vec2 { x: 18.0, y: 4.0 }
-sp Vec2 { x: 67.0, y: 24.0 } Vec2 { x: 103.0, y: 24.0 } Vec2 { x: 103.0, y: 16.0 }
-rp Vec2 { x: 18.0, y: 3.9999995 } Vec2 { x: -18.0, y: 4.0000005 } Vec2 { x: -18.0, y: -3.9999995 }
-sp Vec2 { x: 103.0, y: 16.0 } Vec2 { x: 67.0, y: 16.0 } Vec2 { x: 67.0, y: 24.0 }
-rp Vec2 { x: -19.0, y: -4.5 } Vec2 { x: 19.0, y: -4.5 } Vec2 { x: 19.0, y: 4.5 }
-sp Vec2 { x: 66.0, y: 24.5 } Vec2 { x: 104.0, y: 24.5 } Vec2 { x: 104.0, y: 15.5 }
-rp Vec2 { x: 19.0, y: 4.4999995 } Vec2 { x: -19.0, y: 4.5000005 } Vec2 { x: -19.0, y: -4.4999995 }
-sp Vec2 { x: 104.0, y: 15.5 } Vec2 { x: 66.0, y: 15.5 } Vec2 { x: 66.0, y: 24.5 }
-rp Vec2 { x: -20.0, y: -5.0 } Vec2 { x: 20.0, y: -5.0 } Vec2 { x: 20.0, y: 5.0 }
-sp Vec2 { x: 65.0, y: 25.0 } Vec2 { x: 105.0, y: 25.0 } Vec2 { x: 105.0, y: 15.0 }
-rp Vec2 { x: 20.0, y: 4.9999995 } Vec2 { x: -20.0, y: 5.0000005 } Vec2 { x: -20.0, y: -4.9999995 }
-sp Vec2 { x: 105.0, y: 15.0 } Vec2 { x: 65.0, y: 15.0 } Vec2 { x: 65.0, y: 25.0 }
-rp Vec2 { x: -21.0, y: -5.5 } Vec2 { x: 21.0, y: -5.5 } Vec2 { x: 21.0, y: 5.5 }
-sp Vec2 { x: 64.0, y: 25.5 } Vec2 { x: 106.0, y: 25.5 } Vec2 { x: 106.0, y: 14.5 }
-rp Vec2 { x: 21.0, y: 5.4999995 } Vec2 { x: -21.0, y: 5.5000005 } Vec2 { x: -21.0, y: -5.4999995 }
-sp Vec2 { x: 106.0, y: 14.5 } Vec2 { x: 64.0, y: 14.5 } Vec2 { x: 64.0, y: 25.5 }
-rp Vec2 { x: -22.0, y: -6.0 } Vec2 { x: 22.0, y: -6.0 } Vec2 { x: 22.0, y: 6.0 }
-sp Vec2 { x: 63.0, y: 26.0 } Vec2 { x: 107.0, y: 26.0 } Vec2 { x: 107.0, y: 14.0 }
-rp Vec2 { x: 22.0, y: 5.9999995 } Vec2 { x: -22.0, y: 6.0000005 } Vec2 { x: -22.0, y: -5.9999995 }
-sp Vec2 { x: 107.0, y: 14.0 } Vec2 { x: 63.0, y: 14.0 } Vec2 { x: 63.0, y: 26.0 }
-rp Vec2 { x: -23.0, y: -6.5 } Vec2 { x: 23.0, y: -6.5 } Vec2 { x: 23.0, y: 6.5 }
-sp Vec2 { x: 62.0, y: 26.5 } Vec2 { x: 108.0, y: 26.5 } Vec2 { x: 108.0, y: 13.5 }
-rp Vec2 { x: 23.0, y: 6.4999995 } Vec2 { x: -23.0, y: 6.5000005 } Vec2 { x: -23.0, y: -6.4999995 }
-sp Vec2 { x: 108.0, y: 13.5 } Vec2 { x: 62.0, y: 13.5 } Vec2 { x: 62.0, y: 26.5 }
-rp Vec2 { x: -24.0, y: -7.0 } Vec2 { x: 24.0, y: -7.0 } Vec2 { x: 24.0, y: 7.0 }
-sp Vec2 { x: 61.0, y: 27.0 } Vec2 { x: 109.0, y: 27.0 } Vec2 { x: 109.0, y: 13.0 }
-rp Vec2 { x: 24.0, y: 6.9999995 } Vec2 { x: -24.0, y: 7.0000005 } Vec2 { x: -24.0, y: -6.9999995 }
-sp Vec2 { x: 109.0, y: 13.0 } Vec2 { x: 61.0, y: 13.0 } Vec2 { x: 61.0, y: 27.0 }
-rp Vec2 { x: -25.0, y: -7.5 } Vec2 { x: 25.0, y: -7.5 } Vec2 { x: 25.0, y: 7.5 }
-sp Vec2 { x: 60.0, y: 27.5 } Vec2 { x: 110.0, y: 27.5 } Vec2 { x: 110.0, y: 12.5 }
-rp Vec2 { x: 25.0, y: 7.4999995 } Vec2 { x: -25.0, y: 7.5000005 } Vec2 { x: -25.0, y: -7.4999995 }
-sp Vec2 { x: 110.0, y: 12.5 } Vec2 { x: 60.0, y: 12.5 } Vec2 { x: 60.0, y: 27.5 }
-rp Vec2 { x: -26.0, y: -8.0 } Vec2 { x: 26.0, y: -8.0 } Vec2 { x: 26.0, y: 8.0 }
-sp Vec2 { x: 59.0, y: 28.0 } Vec2 { x: 111.0, y: 28.0 } Vec2 { x: 111.0, y: 12.0 }
-rp Vec2 { x: 26.0, y: 7.9999995 } Vec2 { x: -26.0, y: 8.000001 } Vec2 { x: -26.0, y: -7.9999995 }
-sp Vec2 { x: 111.0, y: 12.0 } Vec2 { x: 59.0, y: 11.999999 } Vec2 { x: 59.0, y: 28.0 }
-rp Vec2 { x: -27.0, y: -8.5 } Vec2 { x: 27.0, y: -8.5 } Vec2 { x: 27.0, y: 8.5 }
-sp Vec2 { x: 58.0, y: 28.5 } Vec2 { x: 112.0, y: 28.5 } Vec2 { x: 112.0, y: 11.5 }
-rp Vec2 { x: 27.0, y: 8.499999 } Vec2 { x: -27.0, y: 8.500001 } Vec2 { x: -27.0, y: -8.499999 }
-sp Vec2 { x: 112.0, y: 11.500001 } Vec2 { x: 58.0, y: 11.499999 } Vec2 { x: 58.0, y: 28.5 }
-rp Vec2 { x: -28.0, y: -9.0 } Vec2 { x: 28.0, y: -9.0 } Vec2 { x: 28.0, y: 9.0 }
-sp Vec2 { x: 57.0, y: 29.0 } Vec2 { x: 113.0, y: 29.0 } Vec2 { x: 113.0, y: 11.0 }
-rp Vec2 { x: 28.0, y: 8.999999 } Vec2 { x: -28.0, y: 9.000001 } Vec2 { x: -28.0, y: -8.999999 }
-sp Vec2 { x: 113.0, y: 11.000001 } Vec2 { x: 57.0, y: 10.999999 } Vec2 { x: 57.0, y: 29.0 }
-rp Vec2 { x: -29.0, y: -9.5 } Vec2 { x: 29.0, y: -9.5 } Vec2 { x: 29.0, y: 9.5 }
-sp Vec2 { x: 56.0, y: 29.5 } Vec2 { x: 114.0, y: 29.5 } Vec2 { x: 114.0, y: 10.5 }
-rp Vec2 { x: 29.0, y: 9.499999 } Vec2 { x: -29.0, y: 9.500001 } Vec2 { x: -29.0, y: -9.499999 }
-sp Vec2 { x: 114.0, y: 10.500001 } Vec2 { x: 56.0, y: 10.499999 } Vec2 { x: 56.0, y: 29.5 }
-rp Vec2 { x: -30.0, y: -10.0 } Vec2 { x: 30.0, y: -10.0 } Vec2 { x: 30.0, y: 10.0 }
-sp Vec2 { x: 55.0, y: 30.0 } Vec2 { x: 115.0, y: 30.0 } Vec2 { x: 115.0, y: 10.0 }
-rp Vec2 { x: 30.0, y: 9.999999 } Vec2 { x: -30.0, y: 10.000001 } Vec2 { x: -30.0, y: -9.999999 }
-sp Vec2 { x: 115.0, y: 10.000001 } Vec2 { x: 55.0, y: 9.999999 } Vec2 { x: 55.0, y: 30.0 }
-rp Vec2 { x: -31.0, y: -10.5 } Vec2 { x: 31.0, y: -10.5 } Vec2 { x: 31.0, y: 10.5 }
-sp Vec2 { x: 54.0, y: 30.5 } Vec2 { x: 116.0, y: 30.5 } Vec2 { x: 116.0, y: 9.5 }
-rp Vec2 { x: 31.0, y: 10.499999 } Vec2 { x: -31.0, y: 10.500001 } Vec2 { x: -31.0, y: -10.499999 }
-sp Vec2 { x: 116.0, y: 9.500001 } Vec2 { x: 54.0, y: 9.499999 } Vec2 { x: 54.0, y: 30.5 }
-rp Vec2 { x: -32.0, y: -11.0 } Vec2 { x: 32.0, y: -11.0 } Vec2 { x: 32.0, y: 11.0 }
-sp Vec2 { x: 53.0, y: 31.0 } Vec2 { x: 117.0, y: 31.0 } Vec2 { x: 117.0, y: 9.0 }
-rp Vec2 { x: 32.0, y: 10.999999 } Vec2 { x: -31.999998, y: 11.000001 } Vec2 { x: -32.0, y: -10.999999 }
-sp Vec2 { x: 117.0, y: 9.000001 } Vec2 { x: 53.0, y: 8.999999 } Vec2 { x: 53.0, y: 31.0 }
-rp Vec2 { x: -33.0, y: -11.5 } Vec2 { x: 33.0, y: -11.5 } Vec2 { x: 33.0, y: 11.5 }
-sp Vec2 { x: 52.0, y: 31.5 } Vec2 { x: 118.0, y: 31.5 } Vec2 { x: 118.0, y: 8.5 }
-rp Vec2 { x: 33.0, y: 11.499999 } Vec2 { x: -33.0, y: 11.500001 } Vec2 { x: -33.0, y: -11.499999 }
-sp Vec2 { x: 118.0, y: 8.500001 } Vec2 { x: 52.0, y: 8.499999 } Vec2 { x: 52.0, y: 31.5 }
-rp Vec2 { x: -34.0, y: -12.0 } Vec2 { x: 34.0, y: -12.0 } Vec2 { x: 34.0, y: 12.0 }
-sp Vec2 { x: 51.0, y: 32.0 } Vec2 { x: 119.0, y: 32.0 } Vec2 { x: 119.0, y: 8.0 }
-rp Vec2 { x: 34.0, y: 11.999999 } Vec2 { x: -34.0, y: 12.000001 } Vec2 { x: -34.0, y: -11.999999 }
-sp Vec2 { x: 119.0, y: 8.000001 } Vec2 { x: 51.0, y: 7.999999 } Vec2 { x: 51.0, y: 32.0 }
-rp Vec2 { x: -35.0, y: -12.5 } Vec2 { x: 35.0, y: -12.5 } Vec2 { x: 35.0, y: 12.5 }
-sp Vec2 { x: 50.0, y: 32.5 } Vec2 { x: 120.0, y: 32.5 } Vec2 { x: 120.0, y: 7.5 }
-rp Vec2 { x: 35.0, y: 12.499999 } Vec2 { x: -35.0, y: 12.500001 } Vec2 { x: -35.0, y: -12.499999 }
-sp Vec2 { x: 120.0, y: 7.500001 } Vec2 { x: 50.0, y: 7.499999 } Vec2 { x: 50.0, y: 32.5 }
-rp Vec2 { x: -36.0, y: -13.0 } Vec2 { x: 36.0, y: -13.0 } Vec2 { x: 36.0, y: 13.0 }
-sp Vec2 { x: 49.0, y: 33.0 } Vec2 { x: 121.0, y: 33.0 } Vec2 { x: 121.0, y: 7.0 }
-rp Vec2 { x: 36.0, y: 12.999999 } Vec2 { x: -36.0, y: 13.000001 } Vec2 { x: -36.0, y: -12.999999 }
-sp Vec2 { x: 121.0, y: 7.000001 } Vec2 { x: 49.0, y: 6.999999 } Vec2 { x: 49.0, y: 33.0 }
-rp Vec2 { x: -37.0, y: -13.5 } Vec2 { x: 37.0, y: -13.5 } Vec2 { x: 37.0, y: 13.5 }
-sp Vec2 { x: 48.0, y: 33.5 } Vec2 { x: 122.0, y: 33.5 } Vec2 { x: 122.0, y: 6.5 }
-rp Vec2 { x: 37.0, y: 13.499999 } Vec2 { x: -37.0, y: 13.500001 } Vec2 { x: -37.0, y: -13.499999 }
-sp Vec2 { x: 122.0, y: 6.500001 } Vec2 { x: 48.0, y: 6.499999 } Vec2 { x: 48.0, y: 33.5 }
-rp Vec2 { x: -38.0, y: -14.0 } Vec2 { x: 38.0, y: -14.0 } Vec2 { x: 38.0, y: 14.0 }
-sp Vec2 { x: 47.0, y: 34.0 } Vec2 { x: 123.0, y: 34.0 } Vec2 { x: 123.0, y: 6.0 }
-rp Vec2 { x: 38.0, y: 13.999999 } Vec2 { x: -38.0, y: 14.000001 } Vec2 { x: -38.0, y: -13.999999 }
-sp Vec2 { x: 123.0, y: 6.000001 } Vec2 { x: 47.0, y: 5.999999 } Vec2 { x: 47.0, y: 34.0 }
-rp Vec2 { x: -39.0, y: -14.5 } Vec2 { x: 39.0, y: -14.5 } Vec2 { x: 39.0, y: 14.5 }
-sp Vec2 { x: 46.0, y: 34.5 } Vec2 { x: 124.0, y: 34.5 } Vec2 { x: 124.0, y: 5.5 }
-rp Vec2 { x: 39.0, y: 14.499999 } Vec2 { x: -39.0, y: 14.500001 } Vec2 { x: -39.0, y: -14.499999 }
-sp Vec2 { x: 124.0, y: 5.500001 } Vec2 { x: 46.0, y: 5.499999 } Vec2 { x: 46.0, y: 34.5 }
-rp Vec2 { x: -40.0, y: -15.0 } Vec2 { x: 40.0, y: -15.0 } Vec2 { x: 40.0, y: 15.0 }
-sp Vec2 { x: 45.0, y: 35.0 } Vec2 { x: 125.0, y: 35.0 } Vec2 { x: 125.0, y: 5.0 }
-rp Vec2 { x: 40.0, y: 14.999999 } Vec2 { x: -40.0, y: 15.000001 } Vec2 { x: -40.0, y: -14.999999 }
-sp Vec2 { x: 125.0, y: 5.000001 } Vec2 { x: 45.0, y: 4.999999 } Vec2 { x: 45.0, y: 35.0 }
-rp Vec2 { x: -41.0, y: -15.5 } Vec2 { x: 41.0, y: -15.5 } Vec2 { x: 41.0, y: 15.5 }
-sp Vec2 { x: 44.0, y: 35.5 } Vec2 { x: 126.0, y: 35.5 } Vec2 { x: 126.0, y: 4.5 }
-rp Vec2 { x: 41.0, y: 15.499999 } Vec2 { x: -41.0, y: 15.500001 } Vec2 { x: -41.0, y: -15.499999 }
-sp Vec2 { x: 126.0, y: 4.500001 } Vec2 { x: 44.0, y: 4.499999 } Vec2 { x: 44.0, y: 35.5 }
-rp Vec2 { x: -42.0, y: -16.0 } Vec2 { x: 42.0, y: -16.0 } Vec2 { x: 42.0, y: 16.0 }
-sp Vec2 { x: 43.0, y: 36.0 } Vec2 { x: 127.0, y: 36.0 } Vec2 { x: 127.0, y: 4.0 }
-rp Vec2 { x: 42.0, y: 15.999999 } Vec2 { x: -42.0, y: 16.0 } Vec2 { x: -42.0, y: -15.999999 }
-sp Vec2 { x: 127.0, y: 4.000001 } Vec2 { x: 43.0, y: 4.0 } Vec2 { x: 43.0, y: 36.0 }
-rp Vec2 { x: -43.0, y: -16.5 } Vec2 { x: 43.0, y: -16.5 } Vec2 { x: 43.0, y: 16.5 }
-sp Vec2 { x: 42.0, y: 36.5 } Vec2 { x: 128.0, y: 36.5 } Vec2 { x: 128.0, y: 3.5 }
-rp Vec2 { x: 43.0, y: 16.5 } Vec2 { x: -43.0, y: 16.5 } Vec2 { x: -43.0, y: -16.5 }
-sp Vec2 { x: 128.0, y: 3.5 } Vec2 { x: 42.0, y: 3.5 } Vec2 { x: 42.0, y: 36.5 }
-rp Vec2 { x: -44.0, y: -17.0 } Vec2 { x: 44.0, y: -17.0 } Vec2 { x: 44.0, y: 17.0 }
-sp Vec2 { x: 41.0, y: 37.0 } Vec2 { x: 129.0, y: 37.0 } Vec2 { x: 129.0, y: 3.0 }
-rp Vec2 { x: 44.0, y: 16.999998 } Vec2 { x: -44.0, y: 17.000002 } Vec2 { x: -44.0, y: -16.999998 }
-sp Vec2 { x: 129.0, y: 3.000002 } Vec2 { x: 41.0, y: 2.999998 } Vec2 { x: 41.0, y: 37.0 }
-rp Vec2 { x: -45.0, y: -17.5 } Vec2 { x: 45.0, y: -17.5 } Vec2 { x: 45.0, y: 17.5 }
-sp Vec2 { x: 40.0, y: 37.5 } Vec2 { x: 130.0, y: 37.5 } Vec2 { x: 130.0, y: 2.5 }
-rp Vec2 { x: 45.0, y: 17.499998 } Vec2 { x: -45.0, y: 17.500002 } Vec2 { x: -45.0, y: -17.499998 }
-sp Vec2 { x: 130.0, y: 2.500002 } Vec2 { x: 40.0, y: 2.499998 } Vec2 { x: 40.0, y: 37.5 }
-rp Vec2 { x: -46.0, y: -18.0 } Vec2 { x: 46.0, y: -18.0 } Vec2 { x: 46.0, y: 18.0 }
-sp Vec2 { x: 39.0, y: 38.0 } Vec2 { x: 131.0, y: 38.0 } Vec2 { x: 131.0, y: 2.0 }
-rp Vec2 { x: 46.0, y: 17.999998 } Vec2 { x: -46.0, y: 18.000002 } Vec2 { x: -46.0, y: -17.999998 }
-sp Vec2 { x: 131.0, y: 2.000002 } Vec2 { x: 39.0, y: 1.9999981 } Vec2 { x: 39.0, y: 38.0 }
-rp Vec2 { x: -47.0, y: -18.5 } Vec2 { x: 47.0, y: -18.5 } Vec2 { x: 47.0, y: 18.5 }
-sp Vec2 { x: 38.0, y: 38.5 } Vec2 { x: 132.0, y: 38.5 } Vec2 { x: 132.0, y: 1.5 }
-rp Vec2 { x: 47.0, y: 18.499998 } Vec2 { x: -47.0, y: 18.500002 } Vec2 { x: -47.0, y: -18.499998 }
-sp Vec2 { x: 132.0, y: 1.5000019 } Vec2 { x: 38.0, y: 1.4999981 } Vec2 { x: 38.0, y: 38.5 }
-rp Vec2 { x: -48.0, y: -19.0 } Vec2 { x: 48.0, y: -19.0 } Vec2 { x: 48.0, y: 19.0 }
-sp Vec2 { x: 37.0, y: 39.0 } Vec2 { x: 133.0, y: 39.0 } Vec2 { x: 133.0, y: 1.0 }
-rp Vec2 { x: 48.0, y: 18.999998 } Vec2 { x: -48.0, y: 19.000002 } Vec2 { x: -48.0, y: -18.999998 }
-sp Vec2 { x: 133.0, y: 1.0000019 } Vec2 { x: 37.0, y: 0.9999981 } Vec2 { x: 37.0, y: 39.0 }
-rp Vec2 { x: -49.0, y: -19.5 } Vec2 { x: 49.0, y: -19.5 } Vec2 { x: 49.0, y: 19.5 }
-sp Vec2 { x: 36.0, y: 39.5 } Vec2 { x: 134.0, y: 39.5 } Vec2 { x: 134.0, y: 0.5 }
-rp Vec2 { x: 49.0, y: 19.499998 } Vec2 { x: -49.0, y: 19.500002 } Vec2 { x: -49.0, y: -19.499998 }
-sp Vec2 { x: 134.0, y: 0.5000019 } Vec2 { x: 36.0, y: 0.4999981 } Vec2 { x: 36.0, y: 39.5 }
-rp Vec2 { x: -50.0, y: -20.0 } Vec2 { x: 50.0, y: -20.0 } Vec2 { x: 50.0, y: 20.0 }
-sp Vec2 { x: 35.0, y: 40.0 } Vec2 { x: 135.0, y: 40.0 } Vec2 { x: 135.0, y: 0.0 }
-rp Vec2 { x: 50.0, y: 19.999998 } Vec2 { x: -50.0, y: 20.000002 } Vec2 { x: -50.0, y: -19.999998 }
-sp Vec2 { x: 135.0, y: 1.9073486e-6 } Vec2 { x: 35.0, y: -1.9073486e-6 } Vec2 { x: 35.0, y: 40.0 }
-rp Vec2 { x: -51.0, y: -20.5 } Vec2 { x: 51.0, y: -20.5 } Vec2 { x: 51.0, y: 20.5 }
-sp Vec2 { x: 34.0, y: 40.5 } Vec2 { x: 136.0, y: 40.5 } Vec2 { x: 136.0, y: -0.5 }
-rp Vec2 { x: 51.0, y: 20.499998 } Vec2 { x: -51.0, y: 20.500002 } Vec2 { x: -51.0, y: -20.499998 }
-sp Vec2 { x: 136.0, y: -0.4999981 } Vec2 { x: 34.0, y: -0.5000019 } Vec2 { x: 34.0, y: 40.5 }
-rp Vec2 { x: -52.0, y: -21.0 } Vec2 { x: 52.0, y: -21.0 } Vec2 { x: 52.0, y: 21.0 }
-sp Vec2 { x: 33.0, y: 41.0 } Vec2 { x: 137.0, y: 41.0 } Vec2 { x: 137.0, y: -1.0 }
-rp Vec2 { x: 52.0, y: 20.999998 } Vec2 { x: -52.0, y: 21.000002 } Vec2 { x: -52.0, y: -20.999998 }
-sp Vec2 { x: 137.0, y: -0.9999981 } Vec2 { x: 33.0, y: -1.0000019 } Vec2 { x: 33.0, y: 41.0 }
-rp Vec2 { x: -53.0, y: -21.5 } Vec2 { x: 53.0, y: -21.5 } Vec2 { x: 53.0, y: 21.5 }
-sp Vec2 { x: 32.0, y: 41.5 } Vec2 { x: 138.0, y: 41.5 } Vec2 { x: 138.0, y: -1.5 }
-rp Vec2 { x: 53.0, y: 21.499998 } Vec2 { x: -53.0, y: 21.500002 } Vec2 { x: -53.0, y: -21.499998 }
-sp Vec2 { x: 138.0, y: -1.4999981 } Vec2 { x: 32.0, y: -1.5000019 } Vec2 { x: 32.0, y: 41.5 }
-rp Vec2 { x: -54.0, y: -22.0 } Vec2 { x: 54.0, y: -22.0 } Vec2 { x: 54.0, y: 22.0 }
-sp Vec2 { x: 31.0, y: 42.0 } Vec2 { x: 139.0, y: 42.0 } Vec2 { x: 139.0, y: -2.0 }
-rp Vec2 { x: 54.000004, y: 21.999998 } Vec2 { x: -53.999996, y: 22.000002 } Vec2 { x: -54.000004, y: -21.999998 }
-sp Vec2 { x: 139.0, y: -1.9999981 } Vec2 { x: 31.000004, y: -2.000002 } Vec2 { x: 30.999996, y: 42.0 }
-rp Vec2 { x: -55.0, y: -22.5 } Vec2 { x: 55.0, y: -22.5 } Vec2 { x: 55.0, y: 22.5 }
-sp Vec2 { x: 30.0, y: 42.5 } Vec2 { x: 140.0, y: 42.5 } Vec2 { x: 140.0, y: -2.5 }
-rp Vec2 { x: 55.000004, y: 22.499998 } Vec2 { x: -54.999996, y: 22.500002 } Vec2 { x: -55.000004, y: -22.499998 }
-sp Vec2 { x: 140.0, y: -2.499998 } Vec2 { x: 30.000004, y: -2.500002 } Vec2 { x: 29.999996, y: 42.5 }
-rp Vec2 { x: -56.0, y: -23.0 } Vec2 { x: 56.0, y: -23.0 } Vec2 { x: 56.0, y: 23.0 }
-sp Vec2 { x: 29.0, y: 43.0 } Vec2 { x: 141.0, y: 43.0 } Vec2 { x: 141.0, y: -3.0 }
-rp Vec2 { x: 56.000004, y: 22.999998 } Vec2 { x: -55.999996, y: 23.000002 } Vec2 { x: -56.000004, y: -22.999998 }
-sp Vec2 { x: 141.0, y: -2.999998 } Vec2 { x: 29.000004, y: -3.000002 } Vec2 { x: 28.999996, y: 43.0 }
+rp Vec2 { x: -0.0, y: 0.0 } Vec2 { x: 0.0, y: -0.0 } Vec2 { x: 0.0, y: 0.0 }
+sp Vec2 { x: 85.0, y: 20.0 } Vec2 { x: 85.0, y: 20.0 } Vec2 { x: 85.0, y: 20.0 }
+rp Vec2 { x: 0.0, y: 0.0 } Vec2 { x: 0.0, y: 0.0 } Vec2 { x: -0.0, y: 0.0 }
+sp Vec2 { x: 85.0, y: 20.0 } Vec2 { x: 85.0, y: 20.0 } Vec2 { x: 85.0, y: 20.0 }
+rp Vec2 { x: -1.0, y: -0.5 } Vec2 { x: 1.0, y: -0.5 } Vec2 { x: 1.0, y: 0.5 }
+sp Vec2 { x: 84.0, y: 20.5 } Vec2 { x: 86.0, y: 20.5 } Vec2 { x: 86.0, y: 19.5 }
+rp Vec2 { x: 1.0, y: 0.49999997 } Vec2 { x: -0.99999994, y: 0.5 } Vec2 { x: -1.0, y: -0.49999997 }
+sp Vec2 { x: 86.0, y: 19.5 } Vec2 { x: 84.0, y: 19.5 } Vec2 { x: 84.0, y: 20.5 }
+rp Vec2 { x: -2.0, y: -1.0 } Vec2 { x: 2.0, y: -1.0 } Vec2 { x: 2.0, y: 1.0 }
+sp Vec2 { x: 83.0, y: 21.0 } Vec2 { x: 87.0, y: 21.0 } Vec2 { x: 87.0, y: 19.0 }
+rp Vec2 { x: 2.0, y: 0.99999994 } Vec2 { x: -1.9999999, y: 1.0 } Vec2 { x: -2.0, y: -0.99999994 }
+sp Vec2 { x: 87.0, y: 19.0 } Vec2 { x: 83.0, y: 19.0 } Vec2 { x: 83.0, y: 21.0 }
+rp Vec2 { x: -3.0, y: -1.5 } Vec2 { x: 3.0, y: -1.5 } Vec2 { x: 3.0, y: 1.5 }
+sp Vec2 { x: 82.0, y: 21.5 } Vec2 { x: 88.0, y: 21.5 } Vec2 { x: 88.0, y: 18.5 }
+rp Vec2 { x: 3.0000002, y: 1.4999999 } Vec2 { x: -2.9999998, y: 1.5000001 } Vec2 { x: -3.0000002, y: -1.4999999 }
+sp Vec2 { x: 88.0, y: 18.5 } Vec2 { x: 82.0, y: 18.5 } Vec2 { x: 82.0, y: 21.5 }
+rp Vec2 { x: -4.0, y: -2.0 } Vec2 { x: 4.0, y: -2.0 } Vec2 { x: 4.0, y: 2.0 }
+sp Vec2 { x: 81.0, y: 22.0 } Vec2 { x: 89.0, y: 22.0 } Vec2 { x: 89.0, y: 18.0 }
+rp Vec2 { x: 4.0, y: 1.9999999 } Vec2 { x: -3.9999998, y: 2.0 } Vec2 { x: -4.0, y: -1.9999999 }
+sp Vec2 { x: 89.0, y: 18.0 } Vec2 { x: 81.0, y: 18.0 } Vec2 { x: 81.0, y: 22.0 }
+rp Vec2 { x: -5.0, y: -2.5 } Vec2 { x: 5.0, y: -2.5 } Vec2 { x: 5.0, y: 2.5 }
+sp Vec2 { x: 80.0, y: 22.5 } Vec2 { x: 90.0, y: 22.5 } Vec2 { x: 90.0, y: 17.5 }
+rp Vec2 { x: 5.0, y: 2.5 } Vec2 { x: -5.0, y: 2.5 } Vec2 { x: -5.0, y: -2.5 }
+sp Vec2 { x: 90.0, y: 17.5 } Vec2 { x: 80.0, y: 17.5 } Vec2 { x: 80.0, y: 22.5 }
+rp Vec2 { x: -6.0, y: -3.0 } Vec2 { x: 6.0, y: -3.0 } Vec2 { x: 6.0, y: 3.0 }
+sp Vec2 { x: 79.0, y: 23.0 } Vec2 { x: 91.0, y: 23.0 } Vec2 { x: 91.0, y: 17.0 }
+rp Vec2 { x: 6.0000005, y: 2.9999998 } Vec2 { x: -5.9999995, y: 3.0000002 } Vec2 { x: -6.0000005, y: -2.9999998 }
+sp Vec2 { x: 91.0, y: 17.0 } Vec2 { x: 79.0, y: 17.0 } Vec2 { x: 79.0, y: 23.0 }
+rp Vec2 { x: -7.0, y: -3.5 } Vec2 { x: 7.0, y: -3.5 } Vec2 { x: 7.0, y: 3.5 }
+sp Vec2 { x: 78.0, y: 23.5 } Vec2 { x: 92.0, y: 23.5 } Vec2 { x: 92.0, y: 16.5 }
+rp Vec2 { x: 7.0000005, y: 3.4999998 } Vec2 { x: -6.9999995, y: 3.5000002 } Vec2 { x: -7.0000005, y: -3.4999998 }
+sp Vec2 { x: 92.0, y: 16.5 } Vec2 { x: 78.0, y: 16.5 } Vec2 { x: 78.0, y: 23.5 }
+rp Vec2 { x: -8.0, y: -4.0 } Vec2 { x: 8.0, y: -4.0 } Vec2 { x: 8.0, y: 4.0 }
+sp Vec2 { x: 77.0, y: 24.0 } Vec2 { x: 93.0, y: 24.0 } Vec2 { x: 93.0, y: 16.0 }
+rp Vec2 { x: 8.0, y: 3.9999998 } Vec2 { x: -7.9999995, y: 4.0 } Vec2 { x: -8.0, y: -3.9999998 }
+sp Vec2 { x: 93.0, y: 16.0 } Vec2 { x: 77.0, y: 16.0 } Vec2 { x: 77.0, y: 24.0 }
+rp Vec2 { x: -9.0, y: -4.5 } Vec2 { x: 9.0, y: -4.5 } Vec2 { x: 9.0, y: 4.5 }
+sp Vec2 { x: 76.0, y: 24.5 } Vec2 { x: 94.0, y: 24.5 } Vec2 { x: 94.0, y: 15.5 }
+rp Vec2 { x: 9.0, y: 4.5 } Vec2 { x: -9.0, y: 4.5 } Vec2 { x: -9.0, y: -4.5 }
+sp Vec2 { x: 94.0, y: 15.5 } Vec2 { x: 76.0, y: 15.5 } Vec2 { x: 76.0, y: 24.5 }

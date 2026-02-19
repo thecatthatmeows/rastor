@@ -1,4 +1,4 @@
-use std::f32::consts::{FRAC_PI_4, PI};
+use std::f32::consts::{FRAC_PI_2, FRAC_PI_4, PI};
 
 use crossterm::style::Color;
 
@@ -45,8 +45,17 @@ impl Rectangle {
     }
 
     pub fn rotate_to(&mut self, rad: f32) {
-        self.triangles[0].orientation = Orientation::Custom(rad);
-        self.triangles[1].orientation = Orientation::Custom(rad).opposite();
+        self.orientation = Orientation::Custom(rad);
+        self.orientation = Orientation::Custom(rad).opposite();
+    }
+
+    pub fn rotate(&mut self, rad: f32) {
+        let last_rad = self.triangles[0].rad();
+        // let rad = (last_rad + rad) % (FRAC_PI_2);
+        let rad = last_rad + rad;
+
+        self.orientation = Orientation::Custom(rad);
+        self.orientation = Orientation::Custom(rad).opposite();
     }
 
     pub fn draw(&self) {

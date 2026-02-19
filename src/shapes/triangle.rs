@@ -1,4 +1,4 @@
-use std::{f32::consts::{FRAC_PI_4, PI}, fmt::format, io::stdout};
+use std::{f32::consts::{FRAC_PI_2, FRAC_PI_4, PI}, fmt::format, io::stdout};
 
 use crossterm::{queue, style::{Color, Print}};
 
@@ -58,10 +58,7 @@ impl Triangle {
 
     fn update_geometry(&mut self) {
         let rad = self.rad();
-        let x_scale = match self.orientation {
-            Orientation::Right | Orientation::Left => 2.0,
-            _ => 1.0
-        };
+        let x_scale = 2.0;
 
         let top_left = self.base_vertices.top_left; // top left
         let bottom_left = self.base_vertices.bottom_left; // bottom left
@@ -78,13 +75,9 @@ impl Triangle {
         self.vertices.bottom_left = rp2;
         self.vertices.bottom_right = rp3;
 
-        eprintln!("rp {:?} {:?} {:?}", rp1, rp2, rp3);
-
         let sp1 = Self::to_screen_coords(rp1, self.center);
         let sp2 = Self::to_screen_coords(rp2, self.center);
         let sp3 = Self::to_screen_coords(rp3, self.center);
-
-        eprintln!("sp {:?} {:?} {:?}", sp1, sp2, sp3);
 
         self.lines = [
             Line::new(sp1, sp2, self.color),
@@ -98,7 +91,7 @@ impl Triangle {
             Orientation::Up => 0.0,
             Orientation::Right => PI/2.0, // 90
             Orientation::Down => PI, // 180
-            Orientation::Left => 3.0 * PI/2.0, // 270
+            Orientation::Left => 3.0 * FRAC_PI_2, // 270
             Orientation::Custom(v) => v
         }
     }
