@@ -106,6 +106,10 @@ where
         }
     }
 
+    pub fn swap(&mut self) {
+        std::mem::swap(&mut self.x, &mut self.y);
+    }
+
     pub fn to_f32(&self) -> Vec2<f32> {
         Vec2::<f32> {
             x: self.x.to_f32().unwrap(),

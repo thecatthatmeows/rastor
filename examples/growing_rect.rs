@@ -1,4 +1,4 @@
-use std::{f32::consts::FRAC_PI_4, io::{Error, stdout}, thread::sleep, time::Duration};
+use std::{f32::consts::{FRAC_PI_4, PI}, io::{Error, stdout}, thread::sleep, time::Duration};
 
 use crossterm::{cursor::MoveTo, event::{self, Event, KeyCode}, execute, style::Color, terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode}};
 use glyph::{key::handle_key, shapes::{Orientation, line::Line, rectangle::Rectangle, triangle::Triangle}, types::vec2::Vec2, utils::get_terminal_size};
@@ -11,7 +11,9 @@ fn main() -> Result<()> {
 
     let term_size = get_terminal_size()?;
     let initial_pos = term_size / Vec2::splat(2);
-    let mut rect = Rectangle::new(initial_pos.to_f32(), Vec2::new(0.0, 0.0), Color::Green);
+    let mut rect = Rectangle::new(initial_pos.to_f32(), Vec2::new(5.0, 0.0), Color::Green);
+
+    let mut rad = FRAC_PI_4;
 
     enable_raw_mode().unwrap();
     while is_running {
@@ -20,7 +22,9 @@ fn main() -> Result<()> {
         rect.draw();
         rect.update();
         rect.size += Vec2::splat(0.5);
-        rect.rotate(FRAC_PI_4);
+
+        rect.rotate(rad);
+        rad = (rad * 2.0) % (PI * 2.0);
 
         handle_key(KeyCode::Char('q'), || is_running = false );
     }

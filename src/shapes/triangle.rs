@@ -5,6 +5,7 @@ use crossterm::{queue, style::{Color, Print}};
 use crate::{shapes::{Orientation, line::Line}, types::vec2::Vec2};
 
 pub struct Triangle {
+    pub base_vertices: TriangleVertices,
     pub vertices: TriangleVertices,
     pub orientation: Orientation,
     pub center: Vec2<f32>,
@@ -35,10 +36,11 @@ impl Triangle {
         let p1 = Vec2::new(-1.0,  1.0) * size; // top left
         let p2 = Vec2::new(-1.0, -1.0) * size; // bottom left
         let p3 = Vec2::new( 1.0, -1.0) * size; // bottom right
-        let vertices = &TriangleVertices::from(&[p1, p2, p3]);
+        let base_vertices = TriangleVertices::from(&[p1, p2, p3]);
 
         Self {
-            vertices: *vertices,
+            base_vertices,
+            vertices: base_vertices,
             orientation,
             center,
             lines: [
@@ -67,9 +69,9 @@ impl Triangle {
             _ => 1.0
         };
 
-        let top_left = self.vertices.top_left; // top left
-        let bottom_left = self.vertices.bottom_left; // bottom left
-        let bottom_right = self.vertices.bottom_right; // bottom right
+        let top_left = self.base_vertices.top_left; // top left
+        let bottom_left = self.base_vertices.bottom_left; // bottom left
+        let bottom_right = self.base_vertices.bottom_right; // bottom right
 
         let mut rp1 = top_left.rotate(rad);
         let mut rp2 = bottom_left.rotate(rad);
@@ -78,9 +80,17 @@ impl Triangle {
         rp2.x *= x_scale;
         rp3.x *= x_scale;
 
+        self.vertices.top_left = rp1;
+        self.vertices.bottom_left = rp2;
+        self.vertices.bottom_right = rp3;
+
+        eprintln!("rp {:?} {:?} {:?}", rp1, rp2, rp3);
+
         let sp1 = Self::to_screen_coords(rp1, self.center);
         let sp2 = Self::to_screen_coords(rp2, self.center);
         let sp3 = Self::to_screen_coords(rp3, self.center);
+
+        eprintln!("sp {:?} {:?} {:?}", sp1, sp2, sp3);
 
         self.lines = [
             Line::new(sp1, sp2, self.color),
