@@ -63,6 +63,9 @@ impl Triangle {
     }
 
     fn fill_color(&self) {
+        let mut stdout = stdout().lock();
+        queue!(stdout, SetForegroundColor(self.color)).unwrap();
+
         let (term_width, term_height) = terminal::size().unwrap();
 
         let vertices = self.vertices.to_arr();
@@ -102,7 +105,7 @@ impl Triangle {
 
         for (x, y) in buf {
             queue!(
-                stdout(),
+                stdout,
                 MoveTo(x, y),
                 Print("█")
             ).unwrap();

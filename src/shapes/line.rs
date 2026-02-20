@@ -20,8 +20,13 @@ impl Line {
     }
 
     pub fn draw(&self) {
-        let mut stdout = stdout();
+        let mut stdout = stdout().lock();
+
+        queue!(stdout, SetForegroundColor(self.color)).unwrap();
+
         let (term_width, term_height) = terminal::size().unwrap();
+        let term_width = term_width as i32;
+        let term_height = term_height as i32;
 
         let x0 = self.pos1.x as i32;
         let y0 = self.pos1.y as i32;
@@ -38,8 +43,8 @@ impl Line {
 
         let mut buf = Vec::with_capacity(1024);
         loop {
-            if x >= 0 && x < term_width as i32
-            && y >= 0 && y < term_height as i32 {
+            if x >= 0 && x < term_width
+            && y >= 0 && y < term_height {
                 buf.push((x, y));
             }
 
@@ -59,7 +64,7 @@ impl Line {
             queue!(
                 stdout,
                 MoveTo(x as u16, y as u16),
-                SetForegroundColor(self.color),
+                // SetForegroundColor(self.color),
                 Print("█")
             ).unwrap();
         }
