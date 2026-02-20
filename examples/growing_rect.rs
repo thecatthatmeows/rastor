@@ -1,8 +1,16 @@
-use std::{f32::consts::{FRAC_PI_4, FRAC_PI_8, PI}, io::{Error, stdout}, thread::sleep, time::Duration};
+use std::io::stdout;
 
-use crossterm::{cursor::MoveTo, event::{self, Event, KeyCode}, execute, style::Color, terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode}};
-use glyph::{key::handle_key, shapes::{Orientation, line::Line, rectangle::Rectangle, triangle::Triangle}, types::vec2::Vec2, utils::get_terminal_size};
 use color_eyre::Result;
+use crossterm::{
+    cursor::MoveTo,
+    event::KeyCode,
+    execute,
+    style::Color,
+    terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
+};
+use glyph::{
+    key::handle_key, shapes::rectangle::Rectangle, types::vec2::Vec2, utils::get_terminal_size,
+};
 
 fn main() -> Result<()> {
     let mut is_running = true;
@@ -21,7 +29,7 @@ fn main() -> Result<()> {
         rect.update();
         rect.size += Vec2::splat(0.5);
 
-        handle_key(KeyCode::Char('q'), || is_running = false );
+        handle_key(KeyCode::Char('q'), || is_running = false);
     }
     disable_raw_mode().unwrap();
 

@@ -1,8 +1,19 @@
-use std::{f32::consts::{FRAC_PI_2, FRAC_PI_4, PI}, fmt::format, io::stdout};
+use std::{
+    f32::consts::{FRAC_PI_2, PI},
+    io::stdout,
+};
 
-use crossterm::{cursor::MoveTo, queue, style::{Color, Print, SetForegroundColor}, terminal};
+use crossterm::{
+    cursor::MoveTo,
+    queue,
+    style::{Color, Print, SetForegroundColor},
+    terminal,
+};
 
-use crate::{shapes::{Orientation, inside_triangle, line::Line}, types::vec2::Vec2};
+use crate::{
+    shapes::{Orientation, inside_triangle, line::Line},
+    types::vec2::Vec2,
+};
 
 pub struct Triangle {
     pub base_vertices: TriangleVertices,
@@ -32,16 +43,16 @@ impl From<&[Vec2<f32>; 3]> for TriangleVertices {
         Self {
             top_left: value[0],
             bottom_left: value[1],
-            bottom_right: value[2]
+            bottom_right: value[2],
         }
     }
 }
 
 impl Triangle {
     pub fn new(center: Vec2<f32>, orientation: Orientation, size: Vec2<f32>, color: Color) -> Self {
-        let p1 = Vec2::new(-1.0,  1.0) * size; // top left
+        let p1 = Vec2::new(-1.0, 1.0) * size; // top left
         let p2 = Vec2::new(-1.0, -1.0) * size; // bottom left
-        let p3 = Vec2::new( 1.0, -1.0) * size; // bottom right
+        let p3 = Vec2::new(1.0, -1.0) * size; // bottom right
         let base_vertices = TriangleVertices::from(&[p1, p2, p3]);
 
         Self {
@@ -54,7 +65,7 @@ impl Triangle {
                 Line::new(p2, p3, color),
                 Line::new(p3, p1, color),
             ],
-            color
+            color,
         }
     }
 
@@ -104,11 +115,7 @@ impl Triangle {
         }
 
         for (x, y) in buf {
-            queue!(
-                stdout,
-                MoveTo(x, y),
-                Print("█")
-            ).unwrap();
+            queue!(stdout, MoveTo(x, y), Print("█")).unwrap();
         }
     }
 
@@ -149,10 +156,10 @@ impl Triangle {
     pub fn rad(&self) -> f32 {
         match self.orientation {
             Orientation::Up => 0.0,
-            Orientation::Right => PI/2.0, // 90
-            Orientation::Down => PI, // 180
+            Orientation::Right => PI / 2.0,       // 90
+            Orientation::Down => PI,              // 180
             Orientation::Left => 3.0 * FRAC_PI_2, // 270
-            Orientation::Custom(v) => v
+            Orientation::Custom(v) => v,
         }
     }
 

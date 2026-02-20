@@ -1,8 +1,15 @@
-use std::{f32::consts::{FRAC_PI_4, FRAC_PI_8, PI}, io::{Error, stdout}, thread::sleep, time::Duration};
-
-use crossterm::{cursor::MoveTo, event::{self, Event, KeyCode}, execute, style::Color, terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode}};
-use glyph::{key::handle_key, shapes::{Orientation, line::Line, rectangle::Rectangle, triangle::Triangle}, types::vec2::Vec2, utils::get_terminal_size};
 use color_eyre::Result;
+use crossterm::{
+    cursor::MoveTo,
+    event::KeyCode,
+    execute,
+    style::Color,
+    terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
+};
+use glyph::{
+    key::handle_key, shapes::rectangle::Rectangle, types::vec2::Vec2, utils::get_terminal_size,
+};
+use std::{f32::consts::PI, io::stdout};
 
 fn main() -> Result<()> {
     let mut is_running = true;
@@ -26,11 +33,10 @@ fn main() -> Result<()> {
         rect.rotate(rad);
         // rad = (rad * 2.0) % (PI * 2.0);
 
-        handle_key(KeyCode::Char('q'), || is_running = false );
+        handle_key(KeyCode::Char('q'), || is_running = false);
     }
     disable_raw_mode().unwrap();
 
     println!();
     Ok(())
 }
-

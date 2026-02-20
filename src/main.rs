@@ -1,7 +1,13 @@
-use std::{io::stdout, thread::sleep, time::Duration};
+use std::io::stdout;
 
-use crossterm::{cursor::MoveTo, event::{self, Event, KeyCode}, execute, style::Color, terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode}};
-use glyph::{key::handle_key, shapes::{Orientation, line::Line, rectangle::Rectangle, triangle::Triangle}, types::vec2::Vec2};
+use crossterm::{
+    cursor::MoveTo,
+    event::KeyCode,
+    execute,
+    style::Color,
+    terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
+};
+use glyph::{key::handle_key, shapes::rectangle::Rectangle, types::vec2::Vec2};
 
 fn main() {
     let mut is_running = true;
@@ -18,7 +24,7 @@ fn main() {
         rect.update();
         rect.size += Vec2::new(0.1, 0.1);
 
-        handle_key(KeyCode::Char('q'), || is_running = false );
+        handle_key(KeyCode::Char('q'), || is_running = false);
     }
     disable_raw_mode().unwrap();
 

@@ -1,8 +1,8 @@
-use std::f32::consts::{FRAC_PI_2, FRAC_PI_4, PI};
-
+use crate::{
+    shapes::{Orientation, triangle::Triangle},
+    types::vec2::Vec2,
+};
 use crossterm::style::Color;
-
-use crate::{shapes::{Orientation, line::Line, triangle::Triangle}, types::vec2::Vec2};
 
 pub struct Rectangle {
     pub pos: Vec2<f32>,
@@ -26,10 +26,7 @@ impl Rectangle {
             size,
             color,
             orientation,
-            triangles: [
-                upper,
-                bottom
-            ]
+            triangles: [upper, bottom],
         }
     }
 
