@@ -6,13 +6,13 @@ use crossterm::{
     terminal,
 };
 
-use crate::{buffer::Buffer, types::vec2::Vec2};
+use crate::{buffer::FrameBuffer, types::vec2::Vec2};
 
 pub struct Line {
     pub pos1: Vec2<f32>,
     pub pos2: Vec2<f32>,
     pub color: Color,
-    pub buffer: Buffer,
+    pub buffer: FrameBuffer,
 }
 
 impl Line {
@@ -22,7 +22,7 @@ impl Line {
             pos1: pos1.into(),
             pos2: pos2.into(),
             color,
-            buffer: Buffer::new(term_width.into(), term_height.into()),
+            buffer: FrameBuffer::new(term_width.into(), term_height.into()),
         }
     }
 

@@ -1,15 +1,17 @@
 use crossterm::{cursor::MoveTo, queue, style::Print};
 
-pub struct Buffer {
+/// The `FrameBuffer` struct was made to render text-based graphics *faster* than just telling the
+/// terminal to move the cursor and print each character individually.
+pub struct FrameBuffer {
     pub width: usize,
     pub height: usize,
     pub data: Vec<char>,
 }
 
-impl Buffer {
+impl FrameBuffer {
     pub fn new(width: usize, height: usize) -> Self {
         let data = vec![' '; width * height];
-        Buffer {
+        FrameBuffer {
             width,
             height,
             data,
