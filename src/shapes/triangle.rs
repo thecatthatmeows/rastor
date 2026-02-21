@@ -27,7 +27,7 @@ pub struct Triangle {
     stdout: StdoutLock<'static>,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct TriangleVertices {
     pub top_left: Vec2<f32>,
     pub bottom_left: Vec2<f32>,
@@ -127,7 +127,7 @@ impl Triangle {
 
     fn update_geometry(&mut self) {
         let rad = self.rad();
-        let x_scale = 2.0;
+        let x_scale = 2.2;
 
         let top_left = self.base_vertices.top_left; // top left
         let bottom_left = self.base_vertices.bottom_left; // bottom left
@@ -176,7 +176,7 @@ impl Triangle {
     pub fn draw(&mut self) {
         self.fill_color();
         for line in &mut self.lines {
-            line.draw();
+            // line.draw();
         }
 
         // sleep(Duration::from_millis(16)); // 0.016666 seconds (deltatime) = 60 fps

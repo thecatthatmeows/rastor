@@ -48,18 +48,6 @@ impl Shape for Rectangle {
         }
     }
 
-    // fn rotate_to(&mut self, rad: f32) {
-    //     self.orientation = Orientation::Custom(rad);
-    // }
-
-    // fn rotate(&mut self, rad: f32) {
-    //     let last_rad = self.triangles[0].rad();
-    //     // let rad = (last_rad + rad) % (FRAC_PI_2);
-    //     let rad = last_rad + rad;
-
-    //     self.orientation = Orientation::Custom(rad);
-    // }
-
     fn draw(&mut self) {
         for triangle in &mut self.triangles {
             triangle.draw();
