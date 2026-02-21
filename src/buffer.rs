@@ -1,3 +1,5 @@
+use std::sync::atomic::{AtomicU8, Ordering};
+
 use parking_lot::Mutex;
 
 use crate::utils::get_terminal_size;
@@ -16,12 +18,14 @@ lazy_static! {
 pub struct FrameBuffer {
     pub width: usize,
     pub height: usize,
-    pub data: Vec<char>,
+    pub data: Vec<AtomicU8>,
 }
 
 impl FrameBuffer {
     pub fn new(width: usize, height: usize) -> Self {
-        let data = vec![' '; width * height];
+        let data = (0..width * height)
+            .map(|_| AtomicU8::new(' ' as u8))
+            .collect();
         FrameBuffer {
             width,
             height,
@@ -31,7 +35,7 @@ impl FrameBuffer {
 
     pub fn set_pixel(&mut self, x: usize, y: usize, c: char) {
         if x < self.width && y < self.height {
-            self.data[y * self.width + x] = c;
+            self.data[y * self.width + x].store(c as u8, Ordering::Relaxed);
         }
     }
 
@@ -50,7 +54,7 @@ impl FrameBuffer {
         for (_y, row) in self.data.chunks(self.width).enumerate() {
             queue!(out, MoveTo(0, 0)).unwrap();
             for ch in row {
-                queue!(out, Print(ch)).unwrap();
+                queue!(out, Print(ch.load(Ordering::Relaxed) as char)).unwrap();
             }
             queue!(out, Print('\n')).unwrap();
         }
