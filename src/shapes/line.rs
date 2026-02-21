@@ -5,8 +5,9 @@ use crate::{
     types::vec2::Vec2,
 };
 use crossterm::{
+    cursor::MoveTo,
     queue,
-    style::{Color, SetForegroundColor},
+    style::{Color, Print, SetForegroundColor},
     terminal,
 };
 
@@ -29,13 +30,9 @@ impl Line {
     }
 
     pub fn draw(&mut self) {
-        let mut buffer = FRAME_BUFFER.lock();
-
-        queue!(self.stdout, SetForegroundColor(self.color)).unwrap();
-
-        // let (term_width, term_height) = terminal::size().unwrap();
-        // let term_width = term_width as i32;
-        // let term_height = term_height as i32;
+        let (term_width, term_height) = terminal::size().unwrap();
+        let term_width = term_width as i32;
+        let term_height = term_height as i32;
 
         let x0 = self.pos1.x as i32;
         let y0 = self.pos1.y as i32;
@@ -50,12 +47,12 @@ impl Line {
         let mut x = x0;
         let mut y = y0;
 
-        // let mut buf = Vec::with_capacity(1024);
+        let mut buf = Vec::with_capacity(1024);
+        // FRAME_BUFFER.set_color(Color::Green, &mut self.stdout);
         loop {
-            buffer.set_pixel(x as usize, y as usize, '█');
-            // if x >= 0 && x < term_width && y >= 0 && y < term_height {
-            //     buf.push((x, y));
-            // }
+            if x >= 0 && x < term_width && y >= 0 && y < term_height {
+                buf.push((x, y));
+            }
 
             if x == x1 && y == y1 {
                 break;
@@ -71,17 +68,22 @@ impl Line {
             }
         }
 
-        buffer.render(&mut self.stdout);
-        // for (x, y) in buf {
-        //     queue!(
-        //         stdout,
-        //         MoveTo(x as u16, y as u16),
-        //         // SetForegroundColor(self.color),
-        //         Print("█")
-        //     )
-        //     .unwrap();
+        // for (x, y) in &buf {
+        //     FRAME_BUFFER.set_pixel(*x as usize, *y as usize, '█');
+        //     FRAME_BUFFER.move_to(*x as usize, *y as usize, &mut self.stdout);
         // }
 
-        self.stdout.flush().unwrap();
+        // FRAME_BUFFER.render(&mut self.stdout);
+
+        for (x, y) in &buf {
+            queue!(
+                self.stdout,
+                MoveTo(*x as u16, *y as u16),
+                // SetForegroundColor(self.color),
+                Print("█")
+            )
+            .unwrap();
+        }
+        // self.stdout.flush().unwrap();
     }
 }

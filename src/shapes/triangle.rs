@@ -1,4 +1,5 @@
 use crate::{
+    buffer::FRAME_BUFFER,
     shapes::{Orientation, inside_triangle, line::Line},
     types::vec2::Vec2,
 };
@@ -107,18 +108,20 @@ impl Triangle {
                 let p = Vec2::new(x as f32, y as f32);
 
                 if inside_triangle(vertices[0], vertices[1], vertices[2], p) {
-                    let screen_x = (x) as u16;
-                    let screen_y = (y) as u16;
+                    let screen_x = (x) as usize;
+                    let screen_y = (y) as usize;
 
-                    if screen_x < term_width && screen_y < term_height {
+                    if screen_x < term_width as usize && screen_y < term_height as usize {
                         buf.push((screen_x, screen_y));
+                        // FRAME_BUFFER.set_pixel(screen_x, screen_y, '█');
                     }
                 }
             }
         }
 
-        for (x, y) in buf {
-            queue!(self.stdout, MoveTo(x, y), Print("█")).unwrap();
+        // FRAME_BUFFER.render(&mut self.stdout);
+        for (x, y) in &buf {
+            queue!(self.stdout, MoveTo(*x as u16, *y as u16), Print("█")).unwrap();
         }
     }
 

@@ -1,7 +1,7 @@
 use std::{thread::sleep, time::Duration};
 
 use crate::{
-    shapes::{Orientation, triangle::Triangle},
+    shapes::{Orientation, Shape, triangle::Triangle},
     types::vec2::Vec2,
 };
 use crossterm::style::Color;
@@ -33,8 +33,10 @@ impl Rectangle {
             triangles: [upper, bottom],
         }
     }
+}
 
-    pub fn update(&mut self) {
+impl Shape for Rectangle {
+    fn update(&mut self) {
         let upper = Triangle::new(self.pos, self.orientation, self.size, self.color);
         let bottom = Triangle::new(self.pos, self.orientation.opposite(), self.size, self.color);
 
@@ -46,23 +48,29 @@ impl Rectangle {
         }
     }
 
-    pub fn rotate_to(&mut self, rad: f32) {
-        self.orientation = Orientation::Custom(rad);
-        self.orientation = Orientation::Custom(rad).opposite();
-    }
+    // fn rotate_to(&mut self, rad: f32) {
+    //     self.orientation = Orientation::Custom(rad);
+    // }
 
-    pub fn rotate(&mut self, rad: f32) {
-        let last_rad = self.triangles[0].rad();
-        // let rad = (last_rad + rad) % (FRAC_PI_2);
-        let rad = last_rad + rad;
+    // fn rotate(&mut self, rad: f32) {
+    //     let last_rad = self.triangles[0].rad();
+    //     // let rad = (last_rad + rad) % (FRAC_PI_2);
+    //     let rad = last_rad + rad;
 
-        self.orientation = Orientation::Custom(rad);
-        self.orientation = Orientation::Custom(rad).opposite();
-    }
+    //     self.orientation = Orientation::Custom(rad);
+    // }
 
-    pub fn draw(&mut self) {
+    fn draw(&mut self) {
         for triangle in &mut self.triangles {
             triangle.draw();
         }
+    }
+
+    fn set_orientation(&mut self, orientation: Orientation) {
+        self.orientation = orientation;
+    }
+
+    fn orientation(&self) -> Orientation {
+        self.orientation
     }
 }

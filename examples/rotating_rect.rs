@@ -7,7 +7,10 @@ use crossterm::{
     terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
 };
 use glyph::{
-    key::handle_key, shapes::rectangle::Rectangle, types::vec2::Vec2, utils::get_terminal_size,
+    key::handle_key,
+    shapes::{Shape, rectangle::Rectangle},
+    types::vec2::Vec2,
+    utils::get_terminal_size,
 };
 use std::{f32::consts::PI, io::stdout};
 
