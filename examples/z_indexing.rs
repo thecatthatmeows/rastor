@@ -54,7 +54,7 @@ fn main() -> color_eyre::Result<()> {
         .map(|b| b as Box<dyn Shape>)
         .collect::<Vec<Box<dyn Shape>>>();
     for rect in &rectangles {
-        parent_rect.push(rect);
+        parent_rect.push(rect.clone());
     }
 
     let mut stdout = stdout().lock();
@@ -63,11 +63,12 @@ fn main() -> color_eyre::Result<()> {
     while is_running {
         execute!(stdout, Clear(ClearType::All), MoveTo(0, 0)).unwrap();
 
-        for rect in &mut rectangles {
-            rect.draw();
-            rect.update();
-            // rect.size += Vec2::splat(0.5);
-        }
+        // for rect in &mut rectangles {
+        //     rect.draw();
+        //     rect.update();
+        // }
+        parent_rect.draw();
+        parent_rect.update();
 
         handle_key(KeyCode::Char('q'), || is_running = false);
     }
