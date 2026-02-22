@@ -49,10 +49,6 @@ fn main() -> color_eyre::Result<()> {
     rectangles[3].z_index = -10; // fourth rectangle = least important
     rectangles.sort_by_key(|rect| rect.z_index);
 
-    let mut rectangles = rectangles
-        .into_iter()
-        .map(|b| b as Box<dyn Shape>)
-        .collect::<Vec<Box<dyn Shape>>>();
     for rect in &rectangles {
         parent_rect.push(rect.clone());
     }
