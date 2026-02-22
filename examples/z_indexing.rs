@@ -7,7 +7,7 @@ use crossterm::{
     style::Color,
     terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
 };
-use glyph::{
+use sigil::{
     key::handle_key,
     shapes::{Shape, rectangle::Rectangle},
     types::vec2::Vec2,

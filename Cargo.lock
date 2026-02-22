@@ -500,20 +500,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "34627c5158214743a374170fed714833fdf4e4b0cbcc1ea98417866a4c5d4441"
 
 [[package]]
-name = "glyph"
-version = "0.1.0"
-dependencies = [
- "color-eyre",
- "crossterm",
- "glam",
- "lazy_static",
- "num-traits",
- "parking_lot",
- "rand 0.10.0",
- "ratatui",
-]
-
-[[package]]
 name = "hashbrown"
 version = "0.15.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1286,6 +1272,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f40ca3c46823713e0d4209592e8d6e826aa57e928f09752619fc696c499637f6"
 dependencies = [
  "lazy_static",
+]
+
+[[package]]
+name = "sigil"
+version = "0.1.0"
+dependencies = [
+ "color-eyre",
+ "crossterm",
+ "glam",
+ "lazy_static",
+ "num-traits",
+ "parking_lot",
+ "rand 0.10.0",
+ "ratatui",
 ]
 
 [[package]]
