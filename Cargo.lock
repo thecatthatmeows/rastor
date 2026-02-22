@@ -1037,6 +1037,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0c8d0fd677905edcbeedbf2edb6494d676f0e98d54d5cf9bda0b061cb8fb8aba"
 
 [[package]]
+name = "rastor"
+version = "0.1.1"
+dependencies = [
+ "color-eyre",
+ "crossterm",
+ "glam",
+ "lazy_static",
+ "num-traits",
+ "parking_lot",
+ "rand 0.10.0",
+ "ratatui",
+]
+
+[[package]]
 name = "ratatui"
 version = "0.30.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1272,20 +1286,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f40ca3c46823713e0d4209592e8d6e826aa57e928f09752619fc696c499637f6"
 dependencies = [
  "lazy_static",
-]
-
-[[package]]
-name = "sigil"
-version = "0.1.1"
-dependencies = [
- "color-eyre",
- "crossterm",
- "glam",
- "lazy_static",
- "num-traits",
- "parking_lot",
- "rand 0.10.0",
- "ratatui",
 ]
 
 [[package]]

@@ -7,7 +7,7 @@ use crossterm::{
     style::Color,
     terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
 };
-use sigil::{
+use rastor::{
     key::handle_key,
     shapes::{Shape, circle::Circle, rectangle::Rectangle},
     types::vec2::Vec2,
