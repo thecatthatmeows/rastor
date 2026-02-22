@@ -1,6 +1,6 @@
 use crate::{
     buffer::FRAME_BUFFER,
-    shapes::{Orientation, inside_triangle, line::Line},
+    shapes::{Orientation, Shape, inside_triangle, line::Line},
     types::vec2::Vec2,
 };
 use crossterm::{
@@ -23,7 +23,7 @@ pub struct Triangle {
     pub center: Vec2<f32>,
     pub z_index: i32,
     pub color: Color,
-    lines: [Line; 3],
+    lines: Vec<Line>,
     stdout: StdoutLock<'static>,
 }
 
@@ -63,7 +63,7 @@ impl Triangle {
             vertices: base_vertices,
             orientation,
             center,
-            lines: [
+            lines: vec![
                 Line::new(p1, p2, color),
                 Line::new(p2, p3, color),
                 Line::new(p3, p1, color),
@@ -72,10 +72,6 @@ impl Triangle {
             z_index: 0,
             stdout: stdout().lock(),
         }
-    }
-
-    pub fn update(&mut self) {
-        self.update_geometry();
     }
 
     fn fill_color(&mut self) {
@@ -152,11 +148,15 @@ impl Triangle {
         self.vertices.bottom_left = sp2;
         self.vertices.bottom_right = sp3;
 
-        self.lines = [
+        self.lines = vec![
             Line::new(sp1, sp2, self.color),
             Line::new(sp2, sp3, self.color),
             Line::new(sp3, sp1, self.color),
         ];
+        // Sort line draw order deterministically by their vertical midpoint so
+        // overlapping/overdraw can be consistent. Lower midpoint (smaller y)
+        // will be drawn first.
+        self.lines.sort_by_key(|line| ((line.pos1.y + line.pos2.y) as i32));
     }
 
     pub fn rad(&self) -> f32 {
@@ -172,14 +172,35 @@ impl Triangle {
     fn to_screen_coords(v: Vec2<f32>, center: Vec2<f32>) -> Vec2<f32> {
         Vec2::new(v.x + center.x, -v.y + center.y)
     }
+}
 
-    pub fn draw(&mut self) {
+impl Shape for Triangle {
+    fn draw(&mut self) {
+        self.lines.sort_by_key(|line| ((line.pos1.y + line.pos2.y) as i32));
         self.fill_color();
         for line in &mut self.lines {
-            // line.draw();
+            line.draw();
         }
+    }
 
-        // sleep(Duration::from_millis(16)); // 0.016666 seconds (deltatime) = 60 fps
+    fn update(&mut self) {
+        self.update_geometry();
+    }
+
+    fn set_orientation(&mut self, orientation: Orientation) {
+        self.orientation = orientation;
+    }
+
+    fn orientation(&self) -> Orientation {
+        self.orientation
+    }
+
+    fn z_index(&self) -> i32 {
+        self.z_index
+    }
+
+    fn box_clone(&self) -> Box<dyn Shape> {
+        Box::new(self.clone())
     }
 }
 
@@ -193,7 +214,7 @@ impl Clone for Triangle {
             center: self.center,
             z_index: self.z_index,
             color: self.color,
-            lines: [
+            lines: vec![
                 Line::new(verts[0], verts[1], self.color),
                 Line::new(verts[1], verts[2], self.color),
                 Line::new(verts[2], verts[0], self.color),

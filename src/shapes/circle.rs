@@ -35,6 +35,9 @@ impl Circle {
             triangles.push(triangle);
         }
 
+        // Ensure triangles are ordered by their z_index so rendering order is stable.
+        triangles.sort_by_key(|t| t.z_index);
+
         Self {
             center,
             radius,
@@ -43,6 +46,11 @@ impl Circle {
             z_index: 0,
             triangles,
         }
+    }
+
+    /// Getter for z_index as an inherent method.
+    pub fn z_index(&self) -> i32 {
+        self.z_index
     }
 }
 
@@ -60,42 +68,19 @@ impl Clone for Circle {
 
 impl Shape for Circle {
     fn draw(&mut self) {
-        // let mut triangles = Vec::new();
-        // for i in 0..self.triangles.len() {
-        //     let theta = i as f32 * (2.0 * std::f32::consts::PI) / self.triangles.len() as f32;
-        //     let next_theta =
-        //         (i + 1) as f32 * (2.0 * std::f32::consts::PI) / self.triangles.len() as f32;
-    
-        //     let p1 = self.center;
-        //     let p2 = self.center
-        //         + Vec2 {
-        //             x: self.radius * theta.cos(),
-        //             y: self.radius * theta.sin(),
-        //         };
-        //     let p3 = self.center
-        //         + Vec2 {
-        //             x: self.radius * next_theta.cos(),
-        //             y: self.radius * next_theta.sin(),
-        //         };
-    
-        //     let mut triangle =
-        //         Triangle::new(p1, Orientation::Right, Vec2::splat(self.radius), self.color);
-        //     // triangle.base_vertices.bottom_left = p1;
-        //     // triangle.base_vertices.bottom_right = p2;
-        //     // triangle.base_vertices.top_left = p3;
-        //     triangles.push(triangle);
-        // }
-        // self.triangles = triangles;
-    
         for triangle in &mut self.triangles {
             triangle.draw();
         }
     }
     
     fn update(&mut self) {
+        // Update geometry/state of each triangle first.
         for triangle in &mut self.triangles {
             triangle.update();
         }
+
+        // After updates, re-sort by z_index so rendering order respects z values.
+        self.triangles.sort_by_key(|t| t.z_index);
     }
     
     fn set_orientation(&mut self, orientation: Orientation) {
@@ -104,6 +89,10 @@ impl Shape for Circle {
     
     fn orientation(&self) -> Orientation {
         self.orientation
+    }
+
+    fn z_index(&self) -> i32 {
+        self.z_index
     }
     
     fn box_clone(&self) -> Box<dyn Shape> {

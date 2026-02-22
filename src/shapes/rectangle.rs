@@ -1,5 +1,3 @@
-use std::{thread::sleep, time::Duration};
-
 use crate::{
     shapes::{Orientation, Shape, triangle::Triangle},
     types::vec2::Vec2,
@@ -39,6 +37,12 @@ impl Rectangle {
     pub fn push(&mut self, child: Box<dyn Shape>) {
         self.children.push(child);
     }
+
+    /// Inherent getter for this rectangle's z-index. This is useful when you
+    /// have a concrete `Rectangle` (e.g. `Vec<Rectangle>`) and want to sort it.
+    pub fn z_index(&self) -> i32 {
+        self.z_index
+    }
 }
 
 impl Clone for Rectangle {
@@ -74,6 +78,8 @@ impl Shape for Rectangle {
             triangle.update();
         }
 
+        self.children.sort_by_key(|child| child.z_index());
+
         for child in &mut self.children {
             child.update();
         }
@@ -83,6 +89,8 @@ impl Shape for Rectangle {
         for triangle in &mut self.triangles {
             triangle.draw();
         }
+
+        self.children.sort_by_key(|child| child.z_index());
 
         // is this considered recursive or..??
         for child in &mut self.children {
@@ -100,5 +108,9 @@ impl Shape for Rectangle {
 
     fn box_clone(&self) -> Box<dyn Shape> {
         Box::new(self.clone())
+    }
+
+    fn z_index(&self) -> i32 {
+        self.z_index
     }
 }

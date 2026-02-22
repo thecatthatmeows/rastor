@@ -15,6 +15,7 @@ pub struct Line {
     pub pos1: Vec2<f32>,
     pub pos2: Vec2<f32>,
     pub color: Color,
+    pub z_index: i32,
     stdout: StdoutLock<'static>,
 }
 
@@ -25,6 +26,7 @@ impl Line {
             pos1: pos1.into(),
             pos2: pos2.into(),
             color,
+            z_index: 0,
             stdout: stdout().lock(),
         }
     }
@@ -90,7 +92,7 @@ impl Line {
 
 /// Manual Clone impl: StdoutLock isn't Clone, so create a fresh lock for the clone.
 /// This mirrors how other shapes create their stdout locks and keeps clone semantics
-/// consistent by duplicating the visible state (pos1, pos2, color) while acquiring
+/// consistent by duplicating the visible state (pos1, pos2, color, z_index) while acquiring
 /// a new stdout lock for use in the cloned instance.
 impl Clone for Line {
     fn clone(&self) -> Self {
@@ -98,6 +100,7 @@ impl Clone for Line {
             pos1: self.pos1,
             pos2: self.pos2,
             color: self.color,
+            z_index: self.z_index,
             stdout: stdout().lock(),
         }
     }

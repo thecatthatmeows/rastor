@@ -49,6 +49,9 @@ pub trait Shape {
     fn set_orientation(&mut self, orientation: Orientation);
     fn orientation(&self) -> Orientation;
 
+    /// z-index used when ordering shapes for rendering. Lower values are drawn first.
+    fn z_index(&self) -> i32;
+
     /// Return a boxed clone of this shape. This is required for cloning
     /// `Box<dyn Shape>` trait objects.
     fn box_clone(&self) -> Box<dyn Shape>;
