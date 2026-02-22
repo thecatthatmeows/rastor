@@ -72,7 +72,7 @@ impl Shape for Circle {
             triangle.draw();
         }
     }
-    
+
     fn update(&mut self) {
         // Update geometry/state of each triangle first.
         for triangle in &mut self.triangles {
@@ -82,11 +82,11 @@ impl Shape for Circle {
         // After updates, re-sort by z_index so rendering order respects z values.
         self.triangles.sort_by_key(|t| t.z_index);
     }
-    
+
     fn set_orientation(&mut self, orientation: Orientation) {
         self.orientation = orientation;
     }
-    
+
     fn orientation(&self) -> Orientation {
         self.orientation
     }
@@ -94,8 +94,22 @@ impl Shape for Circle {
     fn z_index(&self) -> i32 {
         self.z_index
     }
-    
+
+    fn pos(&self) -> Vec2<f32> {
+        // The logical position for a circle is its center.
+        self.center
+    }
+
     fn box_clone(&self) -> Box<dyn Shape> {
         Box::new(self.clone())
+    }
+
+    fn collides_with(&self, other: &dyn Shape) -> bool {
+        // Point-to-circle collision: check whether the other's position lies within
+        // this circle's radius. We use squared distance to avoid an expensive sqrt.
+        let other_pos = other.pos();
+        let dx = other_pos.x - self.center.x;
+        let dy = other_pos.y - self.center.y;
+        (dx * dx + dy * dy) <= (self.radius * self.radius)
     }
 }

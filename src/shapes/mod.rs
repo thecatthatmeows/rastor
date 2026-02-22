@@ -39,15 +39,17 @@ impl Orientation {
 }
 
 /// Trait representing drawable/updatable shapes.
-///
-/// Note: a `box_clone` method is required so trait objects (`Box<dyn Shape>`)
-/// can be cloned. Each concrete `Shape` implementation must provide a
-/// `box_clone` implementation (commonly implemented as `Box::new(self.clone())`).
 pub trait Shape {
     fn draw(&mut self);
     fn update(&mut self);
     fn set_orientation(&mut self, orientation: Orientation);
     fn orientation(&self) -> Orientation;
+
+    /// Primary position of the shape. Implementations should return a Vec2<f32>
+    /// representing the logical position of the shape (e.g. center for a
+    /// `Circle`/`Triangle`, the `pos` field for a `Rectangle`, or a midpoint for
+    /// a `Line`).
+    fn pos(&self) -> Vec2<f32>;
 
     /// z-index used when ordering shapes for rendering. Lower values are drawn first.
     fn z_index(&self) -> i32;
@@ -64,6 +66,8 @@ pub trait Shape {
         let new_rad = last_rad + rad;
         self.set_orientation(Orientation::Custom(new_rad));
     }
+
+    fn collides_with(&self, other: &dyn Shape) -> bool;
 }
 
 /// Allow cloning boxed trait objects: `Box<dyn Shape>`.

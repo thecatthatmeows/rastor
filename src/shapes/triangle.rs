@@ -1,5 +1,4 @@
 use crate::{
-    buffer::FRAME_BUFFER,
     shapes::{Orientation, Shape, inside_triangle, line::Line},
     types::vec2::Vec2,
 };
@@ -195,12 +194,23 @@ impl Shape for Triangle {
         self.orientation
     }
 
+    fn pos(&self) -> Vec2<f32> {
+        // The logical position for a triangle is its center.
+        self.center
+    }
+
     fn z_index(&self) -> i32 {
         self.z_index
     }
 
     fn box_clone(&self) -> Box<dyn Shape> {
         Box::new(self.clone())
+    }
+
+    fn collides_with(&self, other: &dyn Shape) -> bool {
+        let p = other.pos();
+        let verts = self.vertices.to_arr();
+        inside_triangle(verts[0], verts[1], verts[2], p)
     }
 }
 

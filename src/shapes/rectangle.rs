@@ -1,5 +1,5 @@
 use crate::{
-    shapes::{Orientation, Shape, triangle::Triangle},
+    shapes::{Orientation, Shape, inside_triangle, triangle::Triangle},
     types::vec2::Vec2,
 };
 use crossterm::style::Color;
@@ -112,5 +112,28 @@ impl Shape for Rectangle {
 
     fn z_index(&self) -> i32 {
         self.z_index
+    }
+
+    fn collides_with(&self, other: &dyn Shape) -> bool {
+        // Build temporary triangles representing this rectangle (upper and bottom),
+        // update their geometry (which applies orientation), and then test whether
+        // the other's position lies inside either triangle.
+        //
+        // This approach correctly handles rotated rectangles because the
+        // Triangle::update_geometry applies rotation and converts to screen coords.
+        let mut upper = Triangle::new(self.pos, self.orientation, self.size, self.color);
+        let mut bottom = Triangle::new(self.pos, self.orientation.opposite(), self.size, self.color);
+        upper.update();
+        bottom.update();
+
+        let p = other.pos();
+        let up_v = upper.vertices.to_arr();
+        let bot_v = bottom.vertices.to_arr();
+
+        inside_triangle(up_v[0], up_v[1], up_v[2], p) || inside_triangle(bot_v[0], bot_v[1], bot_v[2], p)
+    }
+
+    fn pos(&self) -> Vec2<f32> {
+        self.pos
     }
 }
