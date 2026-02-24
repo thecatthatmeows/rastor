@@ -1,7 +1,7 @@
 use std::ops::{Add, Sub, Mul, Div};
 use crate::types::vec2::Vec2;
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub enum Pos2 {
     Absolute(Vec2<f32>),
     Relative(Vec2<f32>),
@@ -60,6 +60,23 @@ impl Div<f32> for Pos2 {
         match self {
             Pos2::Absolute(a) => Pos2::Absolute(a / scalar),
             Pos2::Relative(a) => Pos2::Relative(a / scalar),
+        }
+    }
+}
+
+// NOTE: The conversion here is flipped
+impl Pos2 {
+    pub fn to_relative(self, world_pos: Vec2<f32>) -> Self {
+        match self {
+            Pos2::Relative(p) => Pos2::Relative(p),
+            Pos2::Absolute(p) => Pos2::Relative(p + world_pos),
+        }
+    }
+
+    pub fn to_absolute(self, local_pos: Vec2<f32>) -> Self {
+        match self {
+            Pos2::Relative(p) => Pos2::Absolute(p - local_pos),
+            Pos2::Absolute(p) => Pos2::Absolute(p),
         }
     }
 }

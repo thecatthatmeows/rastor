@@ -80,12 +80,14 @@ impl Shape for Rectangle {
 
         self.children.sort_by_key(|child| child.z_index());
 
-        // capture parent pos before mutably borrowing children to avoid borrow conflicts
-        let parent_pos = self.pos();
+        let parent_pos: Vec2<f32> = self.pos().into();
         for child in &mut self.children {
-            let local = child.pos();
-            let world_pos = parent_pos + local;
-            child.set_parent_pos(world_pos);
+            let relative_pos = child.pos().to_relative(parent_pos);
+
+            if let Pos2::Relative(_) = relative_pos {
+                child.set_pos(relative_pos);
+            }
+
             child.update();
         }
     }
@@ -98,11 +100,7 @@ impl Shape for Rectangle {
         self.children.sort_by_key(|child| child.z_index());
 
         // is this considered recursive or..??
-        let parent_pos = self.pos();
         for child in &mut self.children {
-            let local = child.pos();
-            let world_pos = parent_pos + local;
-            child.set_parent_pos(world_pos);
             child.draw();
         }
     }
@@ -147,16 +145,9 @@ impl Shape for Rectangle {
         self.pos
     }
 
-    fn set_parent_pos(&mut self, pos: Pos2) {
-        // Update this rectangle's world position, then propagate to children.
-        // Capture the parent's world position as a local copy so we don't attempt
-        // to immutably borrow `self` while iterating over `self.children`.
+    fn set_pos(&mut self, pos: Pos2) {
+        // Set this rectangle's primary position.
+        // This updates the rectangle's stored `pos` (its logical/world position).
         self.pos = pos;
-        let parent_pos = self.pos();
-        for child in &mut self.children {
-            let local = child.pos();
-            let world_pos = parent_pos + local;
-            child.set_parent_pos(world_pos);
-        }
     }
 }

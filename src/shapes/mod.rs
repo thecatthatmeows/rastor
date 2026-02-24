@@ -107,13 +107,13 @@ pub trait Shape {
         world - self.pos()
     }
 
+    /// Set the primary position of the shape. Default implementation is a no-op.
+    /// Concrete shapes should override this to update their internal position/state.
+    fn set_pos(&mut self, pos: Pos2) {}
+
     fn collides_with(&self, other: &dyn Shape) -> bool;
 
-    /// Set the parent's absolute position for this shape. Default is a no-op.
-    /// Parent shapes should call this on their children during their own
-    /// `update`/`draw` so child shapes can compute absolute positions from
-    /// their local coordinates.
-    fn set_parent_pos(&mut self, pos: Pos2) {}
+
 }
 
 /// Allow cloning boxed trait objects: `Box<dyn Shape>`.

@@ -53,7 +53,7 @@ impl Triangle {
 
         // By default, treat the provided `center` as the local center. For a
         // top-level shape this is also its world `center`. When parented, the
-        // parent will call `set_parent_pos` to update the absolute `center`.
+        // parent will provide the absolute `center`.
         Self {
             base_vertices,
             vertices: base_vertices,
@@ -199,16 +199,17 @@ impl Shape for Triangle {
     }
 
     fn pos(&self) -> Pos2 {
-        // The logical position for a triangle (for parenting) is its local center.
-        // Parents will compute the child's world position via `local_to_parent(child.pos())`
-        // and then call `set_parent_pos` with that absolute position.
+        // The logical position for a triangle is its local center.
         self.local_center
     }
 
-    fn set_parent_pos(&mut self, parent_pos: Pos2) {
-        // The parent provides the *absolute* world position for this shape.
-        // Store it in `center`, which is used for geometry updates and rendering.
-        self.center = parent_pos;
+    fn set_pos(&mut self, pos: Pos2) {
+        // Update both the logical local center and the absolute center used for geometry.
+        // For top-level shapes these are the same; if parent transforms are later added,
+        // parent code should update `center` appropriately. Setting both keeps behavior
+        // intuitive for callers that treat `set_pos` as placing the shape in world coords.
+        self.local_center = pos;
+        self.center = pos;
     }
 
     fn z_index(&self) -> i32 {

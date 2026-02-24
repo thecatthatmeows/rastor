@@ -91,6 +91,20 @@ impl Shape for Line {
         // Lines do not have dynamic geometry to update here by default.
     }
 
+    /// Set this line's position by moving its midpoint to `pos`.
+    /// Both endpoints are translated by the same delta so the line's length
+    /// and orientation are preserved.
+    fn set_pos(&mut self, pos: Pos2) {
+        let current_mid: Vec2<f32> = self.pos().into();
+        let new_mid: Vec2<f32> = pos.into();
+        let delta = new_mid - current_mid;
+
+        let p1: Vec2<f32> = self.pos1.into();
+        let p2: Vec2<f32> = self.pos2.into();
+        self.pos1 = (p1 + delta).into();
+        self.pos2 = (p2 + delta).into();
+    }
+
     fn set_orientation(&mut self, orientation: Orientation) {
         let pos1: Vec2<f32> = self.pos1.into();
         let pos2: Vec2<f32> = self.pos2.into();

@@ -100,6 +100,11 @@ impl Shape for Circle {
         self.center
     }
 
+    fn set_pos(&mut self, pos: Pos2) {
+        // Set the logical position (center) of the circle.
+        self.center = pos;
+    }
+
     fn box_clone(&self) -> Box<dyn Shape> {
         Box::new(self.clone())
     }
