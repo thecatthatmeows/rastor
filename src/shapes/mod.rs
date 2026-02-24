@@ -1,6 +1,6 @@
 use std::f32::consts::PI;
 
-use crate::{shapes::pixel::Pixel, types::vec2::Vec2};
+use crate::{shapes::pixel::Pixel, types::{pos2::Pos2, vec2::Vec2}};
 
 pub mod circle;
 pub mod line;
@@ -59,11 +59,11 @@ pub trait Shape {
     fn set_orientation(&mut self, orientation: Orientation);
     fn orientation(&self) -> Orientation;
 
-    /// Primary position of the shape. Implementations should return a Vec2<f32>
+    /// Primary position of the shape. Implementations should return a Pos2
     /// representing the logical position of the shape (e.g. center for a
     /// `Circle`/`Triangle`, the `pos` field for a `Rectangle`, or a midpoint for
-    /// a `Line`).
-    fn pos(&self) -> Vec2<f32>;
+    /// a `Line`). and also accounting for absolute and relative position.
+    fn pos(&self) -> Pos2;
 
     /// z-index used when ordering shapes for rendering. Lower values are drawn first.
     fn z_index(&self) -> i32;
@@ -89,7 +89,31 @@ pub trait Shape {
         self.set_orientation(Orientation::Custom(new_rad));
     }
 
+    /// Convert a child's local (relative) position into the parent's world (absolute)
+    /// coordinate space. Default implementation applies the parent's translation
+    /// only (no rotation): the local coordinate is treated as an offset from the
+    /// parent's `pos()`.
+    ///
+    /// Use this when you store a child's position relative to its parent and need
+    /// the absolute position for rendering, collision checks, etc.
+    fn local_to_parent(&self, local: Pos2) -> Pos2 {
+        local + self.pos()
+    }
+
+    /// Convert a world (absolute) position into this shape's local (relative)
+    /// coordinate space. This is the inverse of `local_to_parent` for the
+    /// translation-only transform.
+    fn parent_to_local(&self, world: Pos2) -> Pos2 {
+        world - self.pos()
+    }
+
     fn collides_with(&self, other: &dyn Shape) -> bool;
+
+    /// Set the parent's absolute position for this shape. Default is a no-op.
+    /// Parent shapes should call this on their children during their own
+    /// `update`/`draw` so child shapes can compute absolute positions from
+    /// their local coordinates.
+    fn set_parent_pos(&mut self, pos: Pos2) {}
 }
 
 /// Allow cloning boxed trait objects: `Box<dyn Shape>`.

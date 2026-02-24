@@ -236,6 +236,7 @@ where
 }
 
 impl Into<Pos2> for Vec2<f32> {
+    /// This `into` function will always returns an absolute position
     fn into(self) -> Pos2 {
         match self {
             Vec2 { x, y } => Pos2::Absolute(Vec2 { x, y }),

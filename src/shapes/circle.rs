@@ -4,11 +4,11 @@ use crossterm::style::Color;
 
 use crate::{
     shapes::{Orientation, Shape, triangle::Triangle},
-    types::vec2::Vec2,
+    types::{pos2::Pos2, vec2::Vec2},
 };
 
 pub struct Circle {
-    pub center: Vec2<f32>,
+    pub center: Pos2,
     pub radius: f32,
     pub orientation: Orientation,
     pub color: Color,
@@ -17,7 +17,7 @@ pub struct Circle {
 }
 
 impl Circle {
-    pub fn new(center: Vec2<f32>, radius: f32, n_sectors: usize, color: Color) -> Self {
+    pub fn new(center: Pos2, radius: f32, n_sectors: usize, color: Color) -> Self {
         let mut triangles = Vec::new();
 
         let angle_per_triangle = (PI * 2.0) / n_sectors as f32;
@@ -95,7 +95,7 @@ impl Shape for Circle {
         self.z_index
     }
 
-    fn pos(&self) -> Vec2<f32> {
+    fn pos(&self) -> Pos2 {
         // The logical position for a circle is its center.
         self.center
     }
@@ -107,9 +107,10 @@ impl Shape for Circle {
     fn collides_with(&self, other: &dyn Shape) -> bool {
         // Point-to-circle collision: check whether the other's position lies within
         // this circle's radius. We use squared distance to avoid an expensive sqrt.
-        let other_pos = other.pos();
-        let dx = other_pos.x - self.center.x;
-        let dy = other_pos.y - self.center.y;
+        let other_pos: Vec2<f32> = other.pos().into();
+        let center: Vec2<f32> = self.center.into();
+        let dx = other_pos.x - center.x;
+        let dy = other_pos.y - center.y;
         (dx * dx + dy * dy) <= (self.radius * self.radius)
     }
 }

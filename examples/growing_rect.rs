@@ -22,7 +22,7 @@ fn main() -> Result<()> {
 
     let term_size = get_terminal_size()?;
     let initial_pos = term_size / Vec2::splat(2);
-    let mut rect = Rectangle::new(initial_pos.to_f32(), Vec2::new(0.0, 0.0), Color::Green);
+    let mut rect = Rectangle::new(initial_pos.to_f32().into(), Vec2::new(0.0, 0.0), Color::Green);
 
     enable_raw_mode().unwrap();
     while is_running {

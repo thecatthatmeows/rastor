@@ -1,11 +1,11 @@
 use crate::{
     shapes::{Orientation, Shape, inside_triangle, triangle::Triangle},
-    types::vec2::Vec2,
+    types::{pos2::Pos2, vec2::Vec2},
 };
 use crossterm::style::Color;
 
 pub struct Rectangle {
-    pub pos: Vec2<f32>,
+    pub pos: Pos2,
     pub size: Vec2<f32>,
     pub orientation: Orientation,
     pub color: Color,
@@ -15,7 +15,7 @@ pub struct Rectangle {
 }
 
 impl Rectangle {
-    pub fn new(pos: Vec2<f32>, mut size: Vec2<f32>, color: Color) -> Self {
+    pub fn new(pos: Pos2, mut size: Vec2<f32>, color: Color) -> Self {
         let orientation = Orientation::Left;
         size.swap();
         let upper = Triangle::new(pos, orientation, size, color);
@@ -80,7 +80,12 @@ impl Shape for Rectangle {
 
         self.children.sort_by_key(|child| child.z_index());
 
+        // capture parent pos before mutably borrowing children to avoid borrow conflicts
+        let parent_pos = self.pos();
         for child in &mut self.children {
+            let local = child.pos();
+            let world_pos = parent_pos + local;
+            child.set_parent_pos(world_pos);
             child.update();
         }
     }
@@ -93,7 +98,11 @@ impl Shape for Rectangle {
         self.children.sort_by_key(|child| child.z_index());
 
         // is this considered recursive or..??
+        let parent_pos = self.pos();
         for child in &mut self.children {
+            let local = child.pos();
+            let world_pos = parent_pos + local;
+            child.set_parent_pos(world_pos);
             child.draw();
         }
     }
@@ -130,10 +139,24 @@ impl Shape for Rectangle {
         let up_v = upper.vertices.to_arr();
         let bot_v = bottom.vertices.to_arr();
 
-        inside_triangle(up_v[0], up_v[1], up_v[2], p) || inside_triangle(bot_v[0], bot_v[1], bot_v[2], p)
+        inside_triangle(up_v[0], up_v[1], up_v[2], p.into()) ||
+        inside_triangle(bot_v[0], bot_v[1], bot_v[2], p.into())
     }
 
-    fn pos(&self) -> Vec2<f32> {
+    fn pos(&self) -> Pos2 {
         self.pos
+    }
+
+    fn set_parent_pos(&mut self, pos: Pos2) {
+        // Update this rectangle's world position, then propagate to children.
+        // Capture the parent's world position as a local copy so we don't attempt
+        // to immutably borrow `self` while iterating over `self.children`.
+        self.pos = pos;
+        let parent_pos = self.pos();
+        for child in &mut self.children {
+            let local = child.pos();
+            let world_pos = parent_pos + local;
+            child.set_parent_pos(world_pos);
+        }
     }
 }

@@ -19,30 +19,32 @@ fn main() -> color_eyre::Result<()> {
     let initial_pos = term_size / Vec2::splat(2);
 
     let mut parent_rect = Rectangle::new(
-        initial_pos.to_f32(),
+        initial_pos.to_f32().into(),
         Vec2::splat(10.0),
         Color::White
     );
     let mut rectangles = Vec::new();
     rectangles.push(Box::new(Rectangle::new(
-        initial_pos.to_f32(),
+        // initial_pos.to_f32(),
+        Vec2::zero().into(),
         Vec2::splat(5.0),
         Color::Green,
     )));
     rectangles.push(Box::new(Rectangle::new(
-        initial_pos.to_f32() + Vec2::splat(3.0),
+        // initial_pos.to_f32(),
+        (Vec2::zero() + 3.0).into(),
         Vec2::splat(5.0),
         Color::Blue,
     )));
     rectangles[1].z_index = 10; // second rectangle = more important
     rectangles.push(Box::new(Rectangle::new(
-        initial_pos.to_f32() + Vec2::splat(6.0),
+        (Vec2::zero() + 6.0).into(),
         Vec2::splat(5.0),
         Color::Yellow,
     )));
     rectangles[2].z_index = 20; // third rectangle = more important
     rectangles.push(Box::new(Rectangle::new(
-        initial_pos.to_f32() + Vec2::splat(9.0),
+        (Vec2::zero() + 9.0).into(),
         Vec2::splat(5.0),
         Color::Magenta,
     )));

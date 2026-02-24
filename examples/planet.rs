@@ -27,13 +27,13 @@ fn main() -> color_eyre::Result<()> {
     let term_size = get_terminal_size()?;
     let initial_pos = term_size / Vec2::splat(2);
 
-    let mut circle = Circle::new(initial_pos.to_f32(), 10.0, 64, Color::Blue);
+    let mut circle = Circle::new(initial_pos.to_f32().into(), 10.0, 64, Color::Blue);
     circle.z_index = 0;
     let mut patches = Vec::new();
 
     for (rect_x, rect_y, rect_w, rect_h) in patch_rects {
         let mut patch = Rectangle::new(
-            initial_pos.to_f32() + Vec2::new(rect_x as f32, rect_y as f32) - Vec2::new(12.0, 8.0),
+            (initial_pos.to_f32() + Vec2::new(rect_x as f32, rect_y as f32) - Vec2::new(12.0, 8.0)).into(),
             Vec2::new(rect_w as f32, rect_h as f32),
             Color::Green,
         );

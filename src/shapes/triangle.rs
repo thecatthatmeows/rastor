@@ -1,6 +1,6 @@
 use crate::{
     shapes::{Orientation, Shape, inside_triangle, line::Line, pixel::{Pixel, flush_pixels}},
-    types::vec2::Vec2,
+    types::{pos2::Pos2, vec2::Vec2},
 };
 use crossterm::style::Color;
 use crossterm::terminal;
@@ -10,7 +10,11 @@ pub struct Triangle {
     pub base_vertices: TriangleVertices,
     pub vertices: TriangleVertices,
     pub orientation: Orientation,
-    pub center: Vec2<f32>,
+    /// Local center is the logical position relative to a parent. When the
+    /// triangle is top-level, `local_center == center`.
+    pub local_center: Pos2,
+    /// `center` is the absolute/world center used for geometry updates and rendering.
+    pub center: Pos2,
     pub z_index: i32,
     pub color: Color,
     lines: Vec<Line>,
@@ -41,16 +45,20 @@ impl From<&[Vec2<f32>; 3]> for TriangleVertices {
 }
 
 impl Triangle {
-    pub fn new(center: Vec2<f32>, orientation: Orientation, size: Vec2<f32>, color: Color) -> Self {
+    pub fn new(center: Pos2, orientation: Orientation, size: Vec2<f32>, color: Color) -> Self {
         let p1 = Vec2::new(-1.0, 1.0) * size; // top left
         let p2 = Vec2::new(-1.0, -1.0) * size; // bottom left
         let p3 = Vec2::new(1.0, -1.0) * size; // bottom right
         let base_vertices = TriangleVertices::from(&[p1, p2, p3]);
 
+        // By default, treat the provided `center` as the local center. For a
+        // top-level shape this is also its world `center`. When parented, the
+        // parent will call `set_parent_pos` to update the absolute `center`.
         Self {
             base_vertices,
             vertices: base_vertices,
             orientation,
+            local_center: center,
             center,
             lines: vec![
                 Line::new(p1, p2, color),
@@ -114,9 +122,10 @@ impl Triangle {
         // self.vertices.bottom_left = rp2;
         // self.vertices.bottom_right = rp3;
 
-        let sp1 = Self::to_screen_coords(rp1, self.center);
-        let sp2 = Self::to_screen_coords(rp2, self.center);
-        let sp3 = Self::to_screen_coords(rp3, self.center);
+        let center_vec: Vec2<f32> = self.center.into();
+        let sp1 = Self::to_screen_coords(rp1, center_vec);
+        let sp2 = Self::to_screen_coords(rp2, center_vec);
+        let sp3 = Self::to_screen_coords(rp3, center_vec);
 
         self.vertices.top_left = sp1;
         self.vertices.bottom_left = sp2;
@@ -130,7 +139,12 @@ impl Triangle {
         // Sort line draw order deterministically by their vertical midpoint so
         // overlapping/overdraw can be consistent. Lower midpoint (smaller y)
         // will be drawn first.
-        self.lines.sort_by_key(|line| ((line.pos1.y + line.pos2.y) as i32));
+        self.lines.sort_by_key(|line| {
+            let line_pos1: Vec2<f32> = line.pos1.into();
+            let line_pos2: Vec2<f32> = line.pos2.into();
+
+            (line_pos1.y + line_pos2.y) as i32
+        });
     }
 
     pub fn rad(&self) -> f32 {
@@ -151,7 +165,12 @@ impl Triangle {
 impl Shape for Triangle {
     fn draw(&mut self) {
         // Sort lines deterministically (same as before) so line order is consistent.
-        self.lines.sort_by_key(|line| ((line.pos1.y + line.pos2.y) as i32));
+        self.lines.sort_by_key(|line| {
+            let line_pos1: Vec2<f32> = line.pos1.into();
+            let line_pos2: Vec2<f32> = line.pos2.into();
+
+            (line_pos1.y + line_pos2.y) as i32
+        });
 
         // Rasterize the filled interior into a temporary pixel buffer and flush
         // it in a single batched write.
@@ -179,9 +198,17 @@ impl Shape for Triangle {
         self.orientation
     }
 
-    fn pos(&self) -> Vec2<f32> {
-        // The logical position for a triangle is its center.
-        self.center
+    fn pos(&self) -> Pos2 {
+        // The logical position for a triangle (for parenting) is its local center.
+        // Parents will compute the child's world position via `local_to_parent(child.pos())`
+        // and then call `set_parent_pos` with that absolute position.
+        self.local_center
+    }
+
+    fn set_parent_pos(&mut self, parent_pos: Pos2) {
+        // The parent provides the *absolute* world position for this shape.
+        // Store it in `center`, which is used for geometry updates and rendering.
+        self.center = parent_pos;
     }
 
     fn z_index(&self) -> i32 {
@@ -195,7 +222,7 @@ impl Shape for Triangle {
     fn collides_with(&self, other: &dyn Shape) -> bool {
         let p = other.pos();
         let verts = self.vertices.to_arr();
-        inside_triangle(verts[0], verts[1], verts[2], p)
+        inside_triangle(verts[0], verts[1], verts[2], p.into())
     }
 }
 
@@ -206,6 +233,7 @@ impl Clone for Triangle {
             base_vertices: self.base_vertices,
             vertices: self.vertices,
             orientation: self.orientation,
+            local_center: self.local_center,
             center: self.center,
             z_index: self.z_index,
             color: self.color,

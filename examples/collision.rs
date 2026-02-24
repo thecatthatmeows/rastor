@@ -22,8 +22,8 @@ fn main() -> Result<()> {
 
     let term_size = get_terminal_size()?;
     let initial_pos = term_size / Vec2::splat(2);
-    let mut rect = Rectangle::new(initial_pos.to_f32(), Vec2::splat(5.0), Color::Green);
-    let mut other_rect = Rectangle::new(initial_pos.to_f32() + Vec2::splat(2.0), Vec2::splat(5.0), Color::Green);
+    let mut rect = Rectangle::new(initial_pos.to_f32().into(), Vec2::splat(5.0), Color::Green);
+    let mut other_rect = Rectangle::new((initial_pos.to_f32() + 2.0).into(), Vec2::splat(5.0), Color::Green);
 
     enable_raw_mode().unwrap();
     while is_running {
