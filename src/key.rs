@@ -30,7 +30,7 @@ impl KeyInput {
         }
     }
 
-    pub fn is_down<F>(&mut self, key: &KeyCode) -> bool {
+    pub fn is_down(&mut self, key: &KeyCode) -> bool {
         self.current.contains(key)
     }
 
