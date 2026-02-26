@@ -7,7 +7,7 @@ use crossterm::{
     terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
 };
 use rastor::{
-    key::handle_key,
+    key::KeyInput,
     shapes::{Shape, rectangle::Rectangle},
     types::vec2::Vec2,
     utils::get_terminal_size,
@@ -25,6 +25,9 @@ fn main() -> Result<()> {
 
     let rad = PI / 16.0;
 
+    // create KeyInput to handle key events
+    let mut keys = KeyInput::new();
+
     enable_raw_mode().unwrap();
     while is_running {
         execute!(stdout, Clear(ClearType::All), MoveTo(0, 0)).unwrap();
@@ -36,7 +39,8 @@ fn main() -> Result<()> {
         rect.rotate(rad);
         // rad = (rad * 2.0) % (PI * 2.0);
 
-        handle_key(KeyCode::Char('q'), || is_running = false);
+        // check for 'q' press using KeyInput
+        keys.is_key_pressed(KeyCode::Char('q'), || is_running = false);
     }
     disable_raw_mode().unwrap();
 

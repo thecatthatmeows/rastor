@@ -9,7 +9,7 @@ use crossterm::{
     terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
 };
 use rastor::{
-    key::handle_key,
+    key::KeyInput,
     shapes::{Shape, rectangle::Rectangle},
     types::vec2::Vec2,
     utils::get_terminal_size,
@@ -26,6 +26,11 @@ fn main() -> Result<()> {
     let mut other_rect = Rectangle::new((initial_pos.to_f32() + 2.0).into(), Vec2::splat(5.0), Color::Green);
 
     enable_raw_mode().unwrap();
+
+    // KeyInput replaces the old handle_key helper.
+    // Initialize with a neutral key (Null) so the sets start empty.
+    let mut key_input = KeyInput::new();
+
     while is_running {
         execute!(stdout, Clear(ClearType::All), MoveTo(0, 0)).unwrap();
 
@@ -37,7 +42,8 @@ fn main() -> Result<()> {
         let rect_collides_with_other = rect.collides_with(&other_rect);
         println!("{}", rect_collides_with_other);
 
-        handle_key(KeyCode::Char('q'), || is_running = false);
+        // Use KeyInput to check for key presses.
+        key_input.is_key_pressed(KeyCode::Char('q'), || is_running = false);
     }
     disable_raw_mode().unwrap();
 

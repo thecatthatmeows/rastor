@@ -8,7 +8,7 @@ use crossterm::{
     terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
 };
 use rastor::{
-    key::handle_key,
+    key::KeyInput,
     shapes::{Shape, circle::Circle, rectangle::Rectangle},
     types::vec2::Vec2,
     utils::get_terminal_size,
@@ -43,6 +43,10 @@ fn main() -> color_eyre::Result<()> {
 
     let mut stdout = stdout().lock();
     let mut is_running = true;
+
+    // Create a KeyInput instance to handle key events (replaces the old `handle_key` helper)
+    let mut key_input = KeyInput::new();
+
     enable_raw_mode().unwrap();
     while is_running {
         execute!(stdout, Clear(ClearType::All), MoveTo(0, 0)).unwrap();
@@ -54,7 +58,11 @@ fn main() -> color_eyre::Result<()> {
             patch.update();
         }
 
-        handle_key(KeyCode::Char('q'), || is_running = false);
+        // Check for 'q' press and stop the loop when pressed.
+        key_input.is_key_pressed(KeyCode::Char('q'), || is_running = false);
+
+        // small sleep to reduce CPU usage
+        sleep(Duration::from_millis(16));
     }
     disable_raw_mode().unwrap();
 
