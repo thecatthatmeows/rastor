@@ -1038,7 +1038,7 @@ checksum = "0c8d0fd677905edcbeedbf2edb6494d676f0e98d54d5cf9bda0b061cb8fb8aba"
 
 [[package]]
 name = "rastor"
-version = "0.1.9"
+version = "0.1.10"
 dependencies = [
  "color-eyre",
  "crossterm",
