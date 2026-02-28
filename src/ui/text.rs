@@ -4,6 +4,7 @@ use crossterm::{cursor::MoveTo, queue};
 
 use crate::{shapes::Shape, types::{pos2::Pos2, vec2::Vec2}, ui::{ElementState, UIElement}};
 
+#[derive(Debug, Clone)]
 pub struct Text {
     pos: Pos2,
     size: Vec2<f32>,
