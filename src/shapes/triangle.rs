@@ -1,6 +1,5 @@
 use crate::{
-    shapes::{Orientation, Shape, inside_triangle, line::Line, pixel::{Pixel, flush_pixels}},
-    types::{pos2::Pos2, vec2::Vec2},
+    X_SCALE, shapes::{Orientation, Shape, inside_triangle, line::Line, pixel::{Pixel, flush_pixels}}, types::{pos2::Pos2, vec2::Vec2}
 };
 use crossterm::style::Color;
 use crossterm::terminal;
@@ -111,7 +110,6 @@ impl Triangle {
 
     fn update_geometry(&mut self) {
         let rad = self.rad();
-        let x_scale = 2.2;
 
         let top_left = self.base_vertices.top_left; // top left
         let bottom_left = self.base_vertices.bottom_left; // bottom left
@@ -120,9 +118,9 @@ impl Triangle {
         let mut rp1 = top_left.rotate(rad);
         let mut rp2 = bottom_left.rotate(rad);
         let mut rp3 = bottom_right.rotate(rad);
-        rp1.x *= x_scale;
-        rp2.x *= x_scale;
-        rp3.x *= x_scale;
+        rp1.x *= X_SCALE;
+        rp2.x *= X_SCALE;
+        rp3.x *= X_SCALE;
 
         // self.vertices.top_left = rp1;
         // self.vertices.bottom_left = rp2;
