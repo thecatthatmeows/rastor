@@ -28,8 +28,9 @@ impl UIElement for Text {
     fn draw(&self) {
         let mut stdout = std::io::stdout().lock();
         let pos: Vec2<f32> = self.pos.into();
-        let pos_centered = Vec2::new(pos.x - (self.len() / 2) as f32, pos.y);
-        queue!(stdout, MoveTo(pos_centered.x as u16, pos_centered.y as u16)).unwrap();
+
+        // +1 to account for border, so that the border doesnt cover up the contents-
+        queue!(stdout, MoveTo(pos.x as u16+1, pos.y as u16)).unwrap();
         stdout.write_all(self.content.as_bytes()).unwrap();
         stdout.flush().unwrap();
     }
