@@ -15,6 +15,10 @@ impl Text {
     pub fn new(pos: Pos2, size: Vec2<f32>, content: String) -> Self {
         Self { pos, size, content }
     }
+
+    pub fn len(&self) -> usize {
+        self.content.len()
+    }
 }
 
 impl UIElement for Text {
@@ -24,7 +28,7 @@ impl UIElement for Text {
     fn draw(&self) {
         let mut stdout = std::io::stdout().lock();
         let pos: Vec2<f32> = self.pos.into();
-        let pos_centered = Vec2::new(pos.x - (self.content.len() / 2) as f32, pos.y);
+        let pos_centered = Vec2::new(pos.x - (self.len() / 2) as f32, pos.y);
         queue!(stdout, MoveTo(pos_centered.x as u16, pos_centered.y as u16)).unwrap();
         stdout.write_all(self.content.as_bytes()).unwrap();
         stdout.flush().unwrap();
