@@ -1,16 +1,20 @@
+use crate::ui::style::border::Border;
+
 pub trait UIElement {
     fn draw(&self);
     fn update(&mut self);
 }
 
 pub struct UIContainer {
-    children: Vec<Box<dyn UIElement>>,
+    pub children: Vec<Box<dyn UIElement>>,
+    pub border: Option<Border>,
 }
 
 impl UIContainer {
     pub fn new() -> Self {
         Self {
             children: Vec::new(),
+            border: None
         }
     }
 
