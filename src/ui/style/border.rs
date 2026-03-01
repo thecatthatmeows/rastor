@@ -16,7 +16,7 @@ pub struct Border {
 
 impl Border {
     pub fn new(pos: Pos2, width: f32, color: Color, style: BorderStyle) -> Self {
-        Self { 
+        Self {
             pos: pos - Vec2::new(0.0, width / 2.0), // adjust position to account for border width
             // pos,
             width,
@@ -29,6 +29,8 @@ impl Border {
         // Implement drawing logic based on the border style
         match self.style {
             BorderStyle::Solid => {
+                // we're reimplementing the drawing logic again since the triangle drawing here wont work well
+                // cuz.. ehmm... you wouldnt want a diagonal line in the middle out of nowhere, would you?
                 // clockwise, starting from top-left corner
                 let rect_corners = [
                     self.pos + Vec2::new(0.0, 0.0) * self.width, // top left
