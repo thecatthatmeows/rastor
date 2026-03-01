@@ -8,7 +8,7 @@ use crossterm::{
     terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
 };
 use rastor::{
-    key::{KeyCode, KeyInput}, shapes::{Shape, rectangle::Rectangle}, types::vec2::Vec2, ui::{UIElement, container::UIContainer, style::border::{Border, BorderStyle}, text::{Text, style::TextStyle}}, utils::get_terminal_size
+    key::{KeyCode, KeyInput}, shapes::{Shape, rectangle::Rectangle}, types::vec2::Vec2, ui::{UIElement, container::{UIContainer, style::ContainerStyle}, style::border::{Border, BorderStyle}, text::{Text, style::TextStyle}}, utils::get_terminal_size
 };
 
 fn main() -> Result<()> {
@@ -23,7 +23,7 @@ fn main() -> Result<()> {
     text.text_style = Some(TextStyle::new(text.size.x as u16, Color::Green, Color::Black));
     container.add_child(Box::new(text.clone()));
 
-    container.border = Some(Border::new(container.pos, container.size.x, Color::White, BorderStyle::Solid));
+    container.style = Some(ContainerStyle::new(Some(Border::new(container.pos, container.size.x, Color::White, BorderStyle::Solid))));
 
     let mut key_input = KeyInput::new();
 

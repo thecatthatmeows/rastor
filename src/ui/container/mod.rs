@@ -1,9 +1,11 @@
-use crate::{types::{pos2::Pos2, vec2::Vec2}, ui::{UIElement, style::border::Border}};
+pub mod style;
+
+use crate::{types::{pos2::Pos2, vec2::Vec2}, ui::{UIElement, container::style::ContainerStyle, style::border::Border}};
 pub struct UIContainer {
     pub pos: Pos2,
     pub size: Vec2<f32>,
     pub children: Vec<Box<dyn UIElement>>,
-    pub border: Option<Border>,
+    pub style: Option<ContainerStyle>,
 }
 
 impl UIContainer {
@@ -11,7 +13,7 @@ impl UIContainer {
         Self {
             pos, size,
             children: Vec::new(),
-            border: None
+            style: None
         }
     }
 
@@ -26,8 +28,14 @@ impl UIElement for UIContainer {
             child.draw();
         }
 
-        if let Some(border) = &self.border {
-            border.draw();
+        if let Some(style) = &self.style {
+            match style {
+                ContainerStyle { border } => {
+                    if let Some(border) = border {
+                        border.draw();
+                    }
+                }
+            }
         }
     }
 
