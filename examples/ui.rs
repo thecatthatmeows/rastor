@@ -8,7 +8,7 @@ use crossterm::{
     terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode},
 };
 use rastor::{
-    key::{KeyCode, KeyInput}, shapes::{Shape, rectangle::Rectangle}, types::vec2::Vec2, ui::{UIElement, container::UIContainer, style::border::{Border, BorderStyle}, text::Text}, utils::get_terminal_size
+    key::{KeyCode, KeyInput}, shapes::{Shape, rectangle::Rectangle}, types::vec2::Vec2, ui::{UIElement, container::UIContainer, style::border::{Border, BorderStyle}, text::{Text, style::TextStyle}}, utils::get_terminal_size
 };
 
 fn main() -> Result<()> {
@@ -19,10 +19,10 @@ fn main() -> Result<()> {
     let term_size = get_terminal_size()?;
     let initial_pos = term_size / Vec2::splat(2);
     let mut container = UIContainer::new(initial_pos.to_f32().into(), Vec2::new(20.0, 10.0));
-    let text = Text::new(initial_pos.to_f32().into(), Vec2::new(2.0, 2.0), String::from("Hello, World!"));
+    let mut text = Text::new(initial_pos.to_f32().into(), Vec2::new(2.0, 2.0), String::from("Hello, World!"));
+    text.text_style = Some(TextStyle::new(text.size.x as u16, Color::Green, Color::Black));
     container.add_child(Box::new(text.clone()));
 
-    let border_pos = text.pos() - Vec2::new(text.len() as f32, 0.0);
     container.border = Some(Border::new(container.pos, container.size.x, Color::White, BorderStyle::Solid));
 
     let mut key_input = KeyInput::new();
